@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modernize Free</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../assets/css/oshanda.css" />
+    <link rel="stylesheet" href="../assets/css/customer.css" />
+</head>
+
+<body >
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <aside class="left-sidebar">
+
+        <div>
+            <div class="brand-logo d-flex align-items-center justify-content-between">
+                <a href="admin-index.html" class="text-nowrap logo-img">
+                    <img src="../assets/images/logos/dark-logo.svg" width="180" alt="" />
+                </a>
+                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                    <i class="ti ti-x fs-8"></i>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                <ul id="sidebarnav">
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Home</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="admin-index.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                            <span class="hide-menu">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">UI COMPONENTS</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-article"></i>
+                </span>
+                            <span class="hide-menu">Buttons</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-alert-circle"></i>
+                </span>
+                            <span class="hide-menu">Alerts</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                            <span class="hide-menu">Card</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-file-description"></i>
+                </span>
+                            <span class="hide-menu">Forms</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-typography"></i>
+                </span>
+                            <span class="hide-menu">Typography</span>
+                        </a>
+                    </li>
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">AUTH</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-login"></i>
+                </span>
+                            <span class="hide-menu">Login</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-plus"></i>
+                </span>
+                            <span class="hide-menu">Register</span>
+                        </a>
+                    </li>
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">EXTRA</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-mood-happy"></i>
+                </span>
+                            <span class="hide-menu">Icons</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="./add-customer.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-aperture"></i>
+                </span>
+                            <span class="hide-menu">Sample Page</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </aside>
+
+    <div class="body-wrapper" >
+
+        <header class="app-header">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item d-block d-xl-none">
+                        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                            <i class="ti ti-menu-2"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                            <i class="ti ti-bell-ringing"></i>
+                            <div class="notification bg-primary rounded-circle"></div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                                <div class="message-body">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <i class="ti ti-user fs-6"></i>
+                                        <p class="mb-0 fs-3">My Profile</p>
+                                    </a>
+
+                                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container-fluid">
+            <div class="card customerCard" >
+                <div class="card-body">
+                    <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                        <div class="card-body px-4 py-3">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <h4  class="fw-semibold mb-8 pageTitle">Employees</h4>
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a class="text-muted text-decoration-none" href="#">Home</a>
+                                            </li>
+                                            <li class="breadcrumb-item" aria-current="page">Employees</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center mb-n5">
+                                        <img src="../assets/images/profile/user-1.jpg" alt="" width="50" height="50" class="rounded-circle mb-5">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-lg-6 d-flex align-items-stretch">
+                                <div class="card w-100 customerCard">
+                                    <form>
+
+                                        <div class="card-body border-top">
+                                            <h5>Personal Info</h5>
+                                            <div class="form-group mt-3 ">
+                                                <label for="customerCode" class="form-label">Employee Code *</label>
+                                                <input disabled type="text" class="form-control" id="customerCode" name="customerCode" required>
+                                                <label id="customerCodeError" style="color: red; display: none;">Invalid customer code (Should follow the pattern CUS-001)</label>
+
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="customerName" class="form-label">Employee Name *</label>
+                                                <input type="text" class="form-control" id="customerName" name="customerName" required>
+                                                <label id="customerNameError" style="color: red; display: none;">Please enter a valid customer name</label>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="gender" class="form-label">Gender *</label>
+                                                <select class="form-control" id="gender" name="gender" required>
+                                                    <option value="MALE">Male</option>
+                                                    <option value="FEMALE">Female</option>
+                                                    <option value="OTHER">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="joinDate" class="form-label">Join Date *</label>
+                                                <input type="date" class="form-control" id="joinDate" name="joinDate" required>
+                                                <label id="joinDateError" style="color: red; display: none;">Join Date cannot be a future date</label>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="level" class="form-label">Level *</label>
+                                                <select disabled class="form-control" id="level" name="level" required>
+                                                    <option value="NEW">New</option>
+                                                    <option value="GOLD">Gold</option>
+                                                    <option value="SILVER">Silver</option>
+                                                    <option value="BRONZE">Bronze</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="dob" class="form-label">Date of Birth *</label>
+                                                <input type="date" class="form-control" id="dob" name="dob" required>
+                                                <label id="dobError" style="color: red; display: none;">Date of Birth cannot be a future date</label>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <input type="number" class="form-control d-none" id="totalPoints" name="totalPoints" value="0">
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <input type="text" class="form-control d-none" id="repurchaseDate" name="repurchaseDate">
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6 d-flex align-items-stretch">
+                                <div class="card w-100 customerCard">
+                                    <div class="card-body border-top">
+                                        <h5 class="mb-3">Address</h5>
+                                        <div class="form-group">
+                                            <label for="addressLine01" class="form-label">Building No</label>
+                                            <input type="text" class="form-control" id="addressLine01" name="addressLine01">
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label for="addressLine02" class="form-label">Lane</label>
+                                            <input type="text" class="form-control" id="addressLine02" name="addressLine02">
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label for="addressLine03" class="form-label">City *</label>
+                                            <input type="text" class="form-control" id="addressLine03" name="addressLine03" required>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label for="addressLine04" class="form-label">State *</label>
+                                            <input type="text" class="form-control" id="addressLine04" name="addressLine04" required>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label for="addressLine05" class="form-label">PostalCode *</label>
+                                            <input type="text" class="form-control" id="addressLine05" name="addressLine05" required>
+                                        </div>
+                                    </div>
+                                    <div class="card-body border-top">
+                                        <h5>Contact Info &amp; Bio</h5>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="mb-3">
+                                                    <label for="email1" class="form-label">Email *</label>
+                                                    <input type="email" class="form-control" id="email1" placeholder="Email Here" required>
+                                                    <label id="emailError" style="color: red; display: none;">Please enter a valid email address</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="cono" class="form-label">Contact No *</label>
+                                                    <input type="text" class="form-control" id="cono" placeholder="Contact No Here" required>
+                                                    <label id="contactNoError" style="color: red; display: none;">Please enter a valid contact number</label><br><br>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border-top">
+                                        <div class="text-end">
+                                            <button id="saveCustomer" type="button" class="btn btn-primary">
+                                                Save
+                                            </button>
+                                            <button id="updateCustomer" type="button" class="btn btn-warning ms-6">
+                                                Update
+                                            </button>
+                                            <button id="deleteCustomer" type="button" class="btn btn-danger  ms-6 px-4">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="d-flex justify-content-end mb-3">
+                            <label>Search:<input id="searchCustomer" type="text" class="form-control" placeholder="" aria-controls="zero_config"></label>
+
+                        </div>
+
+                        <div class="col-12 d-flex align-items-stretch">
+
+
+                            <div class="card w-100 customerCard">
+
+                                <div class="table-responsive border rounded-4" data-bs-theme="dark">
+                                    <table  id="dataTable" class="table text-nowrap table-dark  mb-0 align-middle">
+                                        <thead class="text-bg-dark fs-4">
+                                        <tr>
+                                            <th scope="col">Customer Code</th>
+                                            <th scope="col">Customer Name</th>
+                                            <th scope="col">Gender</th>
+                                            <th scope="col">Join Date</th>
+                                            <th scope="col">Level</th>
+                                            <th scope="col">Date of Birth</th>
+                                            <th scope="col">Total Points</th>
+                                            <th scope="col">Repurchase Date</th>
+                                            <th scope="col">Address</th>
+                                            <!--                        <th scope="col">building No</th>-->
+                                            <!--                        <th scope="col">Lane</th>-->
+                                            <!--                        <th scope="col">City</th>-->
+                                            <!--                        <th scope="col">State</th>-->
+                                            <!--                        <th scope="col">Postal Code</th>-->
+                                            <th scope="col">Contact</th>
+                                            <th scope="col">Email</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tblCustomer">
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+<script src="../assets/js/sidebarmenu.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+<script src="../assets/js/validation-controller.js"></script>
+
+</body>
+
+</html>
