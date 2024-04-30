@@ -30,6 +30,7 @@ public class ExceptionHandlerClass {
         return new ResponseDTO(HttpStatus.NOT_FOUND, e.getMessage(), null);
     }
 
+
 /*    @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseDTO handleDataValidationException(MethodArgumentNotValidException methodArgumentNotValidException){
