@@ -20,3 +20,7 @@ function validateContactNo(contactNo) {
 
     return /(^$|[0-9]{10})/.test(contactNo);
 }
+function validatePostalCode(postalCode) {
+
+    return /^\d{5}$/.test(postalCode);
+}

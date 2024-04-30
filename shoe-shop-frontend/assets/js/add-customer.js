@@ -1,6 +1,6 @@
 $(document).ready(function () {
     getAllCustomers();
-    generateNextOrderId();
+    generateNextCustId();
     var today = new Date();
     var year = today.getFullYear();
     var month = (today.getMonth() + 1).toString().padStart(2, '0'); // Adding leading zero if needed
@@ -94,6 +94,9 @@ $('#saveCustomer').click(function () {
         success: function (response) {
 
             alert("Customer Save successful!");
+            getAllCustomers();
+            clearCustTextFiels();
+            generateNextCustId();
 
 
         },
@@ -109,6 +112,7 @@ $('#saveCustomer').click(function () {
 });
 
 $('#updateCustomer').click(function () {
+    $('label[id$="Error"]').hide();
     let id = $('#customerCode').val();
     let name = $('#customerName').val();
     let gender = $('#gender').val();
@@ -184,6 +188,8 @@ $('#updateCustomer').click(function () {
 
             alert("Customer Update successful!");
             getAllCustomers();
+            clearCustTextFiels();
+            generateNextCustId();
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -205,6 +211,8 @@ $('#deleteCustomer').click(function () {
 
             alert("Customer Update successful!");
             getAllCustomers();
+            clearCustTextFiels();
+            generateNextCustId();
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -314,7 +322,7 @@ $('#tblCustomer').on('click', 'tr', function () {
 
 });
 
-function generateNextOrderId() {
+function generateNextCustId() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/customers/genarateNextId',
@@ -406,4 +414,23 @@ function searchCustomerByName() {
         }
     });
 
+}
+
+function clearCustTextFiels() {
+
+    $('#customerName').val("");
+    var gender = $('#gender');
+    gender.selectedIndex =0;
+    var status =$('#level');
+    status.selectedIndex =0;
+    $('#joinDate').val("");
+    $('#dob').val("");
+
+    $('#addressLine01').val("");
+    $('#addressLine02').val("");
+    $('#addressLine03').val("");
+    $('#addressLine04').val("");
+    $('#addressLine05').val("");
+    $('#email1').val("");
+    $('#cono').val("");
 }
