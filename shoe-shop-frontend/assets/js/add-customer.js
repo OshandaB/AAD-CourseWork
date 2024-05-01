@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $("#updateCustomer").prop("disabled", true);
+    $("#deleteCustomer").prop("disabled", true);
     getAllCustomers();
     generateNextCustId();
     var today = new Date();
@@ -225,6 +227,8 @@ $('#deleteCustomer').click(function () {
 let repurseDate
 
 function getAllCustomers() {
+    $("#updateCustomer").prop("disabled", true);
+    $("#deleteCustomer").prop("disabled", true);
     $("#tblCustomer").empty()
     $.ajax({
         url: 'http://localhost:8080/api/v1/customers/gelAllCustomers',
@@ -279,7 +283,8 @@ function getAllCustomers() {
 }
 
 $('#tblCustomer').on('click', 'tr', function () {
-
+    $("#updateCustomer").prop("disabled", false);
+    $("#deleteCustomer").prop("disabled", false);
 
     let id = $(this).find('td:first').text();
     let name = $(this).find('td:nth-child(2)').text();
@@ -294,8 +299,8 @@ $('#tblCustomer').on('click', 'tr', function () {
     let add03 = $(this).find('#span_add_3').text();
     let add04 = $(this).find('#span_add_4').text();
     let add05 = $(this).find('#span_add_5').text();
-    let contact = $(this).find('td:nth-child(14)').text();
-    let email = $(this).find('td:nth-child(15)').text();
+    let contact = $(this).find('td:nth-child(10)').text();
+    let email = $(this).find('td:nth-child(11)').text();
 
 
     $('#customerCode').val(id);

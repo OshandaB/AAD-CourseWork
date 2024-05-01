@@ -1,5 +1,7 @@
 
 $(document).ready(function () {
+    $("#updateEmployee").prop("disabled", true);
+    $("#deleteEmployee").prop("disabled", true);
     getAllEmployees();
     generateNextEmpId();
     var today = new Date();
@@ -314,6 +316,8 @@ function generateNextEmpId() {
 
 }
 function getAllEmployees() {
+    $("#updateEmployee").prop("disabled", true);
+    $("#deleteEmployee").prop("disabled", true);
     $("#tblEmployee").empty()
     $.ajax({
         url: 'http://localhost:8080/api/v1/employees/getAllEmployees',
@@ -376,6 +380,8 @@ function getAllEmployees() {
 }
 $('#tblEmployee').on('click', 'tr', function () {
 
+    $("#updateEmployee").prop("disabled", false);
+    $("#deleteEmployee").prop("disabled", false);
 
     let id = $(this).find('td:first').text();
     let name = $(this).find('td:nth-child(2)').text();
