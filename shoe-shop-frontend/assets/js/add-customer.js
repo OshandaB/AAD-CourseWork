@@ -420,7 +420,10 @@ function searchCustomerByName() {
     });
 
 }
+$("#resetCustomer").click(function () {
 
+   clearCustTextFiels();
+});
 function clearCustTextFiels() {
 
     $('#customerName').val("");

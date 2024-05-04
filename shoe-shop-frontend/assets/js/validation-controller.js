@@ -24,3 +24,15 @@ function validatePostalCode(postalCode) {
 
     return /^\d{5}$/.test(postalCode);
 }
+
+function validateQuantity(quantity) {
+    // Example regex pattern for validating quantity (positive integers only)
+    const quantityPattern = /^[1-9]\d*$/;
+    return quantityPattern.test(quantity);
+}
+
+function validateUnitPrice(unitPrice) {
+    // Example regex pattern for validating unit price (positive numbers with up to 2 decimal places)
+    const unitPricePattern = /^\d+(\.\d{1,2})?$/;
+    return unitPricePattern.test(unitPrice);
+}

@@ -20,7 +20,7 @@ $('#saveEmployee').click(function () {
     // Personal Info
     var employeeCodeValue = $('#employeeCode').val();
     var employeeNameValue = $('#employeeName').val();
-    var profilePicFile = $('#customFile').prop('files')[0]; // For file input, use prop('files')[0]
+    var profilePicFile = $('#customFile').prop('files')[0];
     var genderValue = $('#gender').val();
     var statusValue = $('#status').val();
     var joinDateValue = $('#joinDate').val();
@@ -353,11 +353,11 @@ function getAllEmployees() {
                       <td>${employee.emergencyContactPerson}</td>
                      </tr>`;
                    $('#tblEmployee').append(row);
-                if(employee.addressLine01 !== ""){
+                if(employee.addressLine01 !== null){
                     let line1 = `<span id="span_add_1">${employee.addressLine01}</span>,<br> `;
                     $(".tbl-address:last").append(line1);
                 }
-                if(employee.addressLine02 !== ""){
+                if(employee.addressLine02 !== null){
                     let line2 = `<span id="span_add_2">${employee.addressLine02}</span>,<br> `;
                     $(".tbl-address:last").append(line2);
                 }
@@ -526,7 +526,10 @@ function searchEmployeeByName() {
 
 }
 
-
+$("#resetEmployee").click(function () {
+ 
+    clearEmpTextFiels();
+});
 function clearEmpTextFiels() {
 
     $('#employeeName').val("");

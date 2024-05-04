@@ -318,7 +318,7 @@ function generateNextSupId() {
         },
         error: function (error) {
             console.log(error);
-            $('#customerCode').val("SUP-001");
+            $('#supplierCode').val("SUP-001");
         }
     });
 
@@ -387,7 +387,10 @@ function searchSupplierByName() {
 
 }
 
+$("#resetSupplier").click(function () {
 
+    clearSupTextFiels();
+});
 function clearSupTextFiels() {
     $('#supplierName').val("");
     var category = $('#category');

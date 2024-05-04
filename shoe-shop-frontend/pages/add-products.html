@@ -227,13 +227,13 @@
                         <div class="card-body px-4 py-3">
                             <div class="row align-items-center">
                                 <div class="col-9">
-                                    <h4  class="fw-semibold mb-8 pageTitle">Employees</h4>
+                                    <h4  class="fw-semibold mb-8 pageTitle">Products</h4>
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
                                                 <a class="text-muted text-decoration-none" href="#">Home</a>
                                             </li>
-                                            <li class="breadcrumb-item" aria-current="page">Employees</li>
+                                            <li class="breadcrumb-item" aria-current="page">Add Products</li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -249,173 +249,123 @@
                     <div class="container-fluid">
 
                         <div class="row">
-
                             <div class="col-lg-6 d-flex align-items-stretch">
                                 <div class="card w-100 customerCard">
-                                    <form id="employeeForm">
-                                         <div class="card-body border-top">
-                                            <h5>Personal Info</h5>
+                                    <form id="inventoryForm">
+                                        <div class="card-body border-top">
+                                            <h5>Inventory Information</h5>
                                             <div class="form-group mt-3">
-                                                <label for="employeeCode" class="form-label">Employee Code *</label>
-                                                <input disabled  type="text" class="form-control" id="employeeCode" name="employeeCode" required>
-                                                <label id="employeeCodeError" style="color: red; display: none;">Invalid customer code (Should follow the pattern CUS-001)</label>
-
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="employeeName" class="form-label">Employee Name *</label>
-                                                <input type="text" class="form-control" id="employeeName" name="employeeName" required>
-                                                <label id="employeeNameError" style="color: red; display: none;">Please enter a valid customer name</label>
-
-                                            </div>
-                                            <div class="form-group mt-3">
-
-                                                <label for="employeeName" class="form-label">Profile Pic </label>
-                                                <input type="file" class="form-control" id="customFile" name="profilePic">
-
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="gender" class="form-label">Gender *</label>
-                                                <select class="form-control" id="gender" name="gender" required>
-                                                    <option value="MALE">Male</option>
-                                                    <option value="FEMALE">Female</option>
-                                                    <option value="OTHER">Other</option>
+                                                <label for="category" class="form-label">Category *</label>
+                                                <!--                                                <input type="text" class="form-control" id="category" name="category" required>-->
+                                                <select class="form-control" id="category" name="category" required>
+                                                    <option selected disabled>Choose</option>
+                                                    <option>FSM</option>
+                                                    <option>FSW</option>
+                                                    <option>CSM</option>
+                                                    <option>CSW</option>
+                                                    <option>SSM</option>
+                                                    <option>SSW</option>
                                                 </select>
+                                                <label id="categoryError" style="color: red; display: none;">Please enter a valid category</label>
                                             </div>
                                             <div class="form-group mt-3">
-                                                <label for="status" class="form-label">Status *</label>
-                                                <select class="form-control" id="status" name="status" required>
-                                                    <option value="SINGLE">SINGLE</option>
-                                                    <option value="MARRIED">MARRIED</option>
-                                                    <option value="DIVORCED">DIVORCED</option>
-                                                    <option value="WIDOWED">WIDOWED</option>
-                                                </select>
+                                                <label for="itemCode" class="form-label">Item Code *</label>
+                                                <input disabled type="text" class="form-control" id="itemCode" name="itemCode" required>
+                                                <label id="itemCodeError" style="color: red; display: none;">Please enter a valid item code</label>
                                             </div>
                                             <div class="form-group mt-3">
-                                                <label for="joinDate" class="form-label">Join Date *</label>
-                                                <input type="date" class="form-control" id="joinDate" name="joinDate" required>
-                                                <label id="joinDateError" style="color: red; display: none;">Join Date cannot be a future date</label>
+                                                <label for="itemDesc" class="form-label">Item Description *</label>
+                                                <input type="text" class="form-control" id="itemDesc" name="itemDesc" required>
+                                                <label id="itemDescError" style="color: red; display: none;">Please enter a valid item description</label>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="itemPicture" class="form-label">Item Picture</label>
+                                                <input type="file" class="form-control" id="itemPicture" name="itemPicture">
+                                                <label id="itemPictureError" style="color: red; display: none;">Please select a valid item picture</label>
+                                            </div>
 
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="designation" class="form-label">Designation *</label>
-                                                <input type="text" class="form-control" id="designation" name="designation" required>
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="accessRole" class="form-label">Access Role *</label>
-                                                <select class="form-control" id="accessRole" name="accessRole" required>
-                                                    <option value="ADMIN">Admin</option>
-                                                    <option value="USER">User</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="dob" class="form-label">Date of Birth *</label>
-                                                <input type="date" class="form-control" id="dob" name="dob" required>
-                                                <label id="dobError" style="color: red; display: none;">Date of Birth cannot be a future date</label>
+                                                <div class="form-group mt-3" id="sizeQtyFields">
+                                                    <!-- Size and Quantity fields will be added dynamically here -->
+                                                </div>
 
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="attachedBranch" class="form-label">Attached Branch *</label>
-                                                <input type="text" class="form-control" id="attachedBranch" name="attachedBranch">
-                                            </div>
+                                                <button type="button" class="btn btn-primary mt-3" onclick="addSizeQtyFields()">Add Size & Quantity</button>
+
+
+
+
+
                                         </div>
-
-                                        </form>
+                                    </form>
                                 </div>
-
                             </div>
                             <div class="col-lg-6 d-flex align-items-stretch">
                                 <div class="card w-100 customerCard">
                                     <div class="card-body border-top">
-                                        <h5 class="mb-3">Address</h5>
+                                        <h5 class="mb-3">Supplier Information</h5>
                                         <div class="form-group">
-                                            <label for="addressLine01" class="form-label">Building No</label>
-                                            <input type="text" class="form-control" id="addressLine01" name="addressLine01">
-                                            <label class="address" style="color: red; display: none;">Please Enter Valid Address</label>
+                                            <label for="supplierCode" class="form-label">Supplier Code *</label>
+                                            <select type="text" class="form-control" id="supplierCode" name="supplierCode" required>
+                                                <option selected disabled>Choose</option>
 
+                                            </select>
+                                            <label id="supplierCodeError" style="color: red; display: none;">Please enter a valid supplier code</label>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label for="addressLine02" class="form-label">Lane</label>
-                                            <input type="text" class="form-control" id="addressLine02" name="addressLine02">
-                                            <label class="address" style="color: red; display: none;">Please Enter Valid Address</label>
-
+                                            <label for="supplierName" class="form-label">Supplier Name *</label>
+                                            <input type="text" class="form-control" id="supplierName" name="supplierName" required>
+                                            <label id="supplierNameError" style="color: red; display: none;">Please enter a valid supplier name</label>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label for="addressLine03" class="form-label">City *</label>
-                                            <input type="text" class="form-control" id="addressLine03" name="addressLine03" >
-                                            <label class="address" style="color: red; display: none;">Please Enter Valid Address</label>
-
+                                            <label for="unitPriceSale" class="form-label">Unit Price - Sale *</label>
+                                            <input type="number" value="0" class="form-control" id="unitPriceSale" name="unitPriceSale" required>
+                                            <label id="unitPriceSaleError" style="color: red; display: none;">Please enter a valid unit price for sale</label>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label for="addressLine04" class="form-label">State *</label>
-                                            <input type="text" class="form-control" id="addressLine04" name="addressLine04" >
-                                            <label class="address" style="color: red; display: none;">Please Enter Valid Address</label>
-
+                                            <label for="unitPriceBuy" class="form-label">Unit Price - Buy *</label>
+                                            <input type="number" value="0" class="form-control" id="unitPriceBuy" name="unitPriceBuy" required>
+                                            <label id="unitPriceBuyError" style="color: red; display: none;">Please enter a valid unit price for buy</label>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label for="addressLine05" class="form-label">PostalCode *</label>
-                                            <input type="text" class="form-control" id="addressLine05" name="addressLine05" >
-                                            <label id="postalCode" style="color: red; display: none;">DPlease Enter Valid Postal Code</label>
-
+                                            <label for="expectedProfit" class="form-label">Expected Profit *</label>
+                                            <input type="number" value="0" disabled class="form-control" id="expectedProfit" name="expectedProfit" required>
+                                            <label id="expectedProfitError" style="color: red; display: none;">Please enter a valid expected profit</label>
                                         </div>
-                                    </div>
-                                    <div class="card-body border-top">
-                                        <h5>Contact Info &amp; Bio</h5>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="email1" class="form-label">Email *</label>
-                                                    <input type="text" class="form-control" id="email1" name="email1" placeholder="Email Here" >
-                                                    <label id="emailError" style="color: red; display: none;">Please enter a valid email address</label>
-                                                </div>
-                                            </div>
-
+                                        <div class="form-group mt-3">
+                                            <label for="profitMargin" class="form-label">Profit Margin *</label>
+                                            <input type="number" value="0" disabled class="form-control" id="profitMargin" name="profitMargin" required>
+                                            <label id="profitMarginError" style="color: red; display: none;">Please enter a valid profit margin</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div>
-                                                    <label for="cono" class="form-label">Contact No *</label>
-                                                    <input type="text" class="form-control" id="cono" placeholder="Contact No Here" name="contact" >
-                                                    <label id="contactNoError" style="color: red; display: none;">Please enter a valid contact number</label><br>
-
-                                                </div>
-                                                <div >
-                                                    <label for="emergencyContact" class="form-label">Emergency Contact *</label>
-                                                    <input type="text" class="form-control" id="emergencyContact" name="guardianContact">
-                                                    <label id="contactNoEmgError" style="color: red; display: none;">Please enter a valid contact number</label><br>
-
-                                                </div>
-                                                <div>
-                                                    <label for="emergencyContactP" class="form-label">Emergency Contact Person *</label>
-                                                    <input type="text" class="form-control" id="emergencyContactP" name="guardianName">
-
-                                                </div>
-                                            </div>
-
+                                        <div class="form-group mt-3">
+                                            <label for="status" class="form-label">Status *</label>
+                                            <select class="form-control" id="status" name="status" required>
+                                                <option value="Low">Available</option>
+                                                <option value="Available">Low</option>
+                                                <option value="Not Available">Not Available</option>
+                                            </select>
                                         </div>
-
                                     </div>
                                     <div class="p-3 border-top">
                                         <div class="text-end">
-                                            <button id="saveEmployee" type="button" class="btn btn-primary">
+                                            <button id="saveInventory" type="button" class="btn btn-primary">
                                                 Save
                                             </button>
-                                            <button id="updateEmployee" type="button" class="btn btn-warning ms-6">
+                                            <button id="updateInventory" type="button" class="btn btn-warning ms-6">
                                                 Update
                                             </button>
-                                            <button id="deleteEmployee" type="button" class="btn btn-danger  ms-6 px-4">
+                                            <button id="deleteInventory" type="button" class="btn btn-danger ms-6 px-4">
                                                 Delete
                                             </button>
-                                            <button id="resetEmployee" type="button" class="btn btn-secondary ms-6 px-4">
+                                            <button id="resetInventory" type="button" class="btn btn-secondary ms-6 px-4">
                                                 Reset
                                             </button>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+
                         <div class="d-flex justify-content-end mb-3">
-                            <label id="searchCustLabel">Search:<input id="searchEmployee" type="text" class="form-control" placeholder="" aria-controls="zero_config"></label>
+                            <label id="searchCustLabel">Search:<input id="searchInventory" type="text" class="form-control" placeholder="" aria-controls="zero_config"></label>
 
                         </div>
 
@@ -425,62 +375,66 @@
                             <div class="card w-100 customerCard">
 
                                 <div class="table-responsive border rounded-4" data-bs-theme="dark">
-                                    <table  id="dataTable" class="table text-nowrap table-dark  mb-0 align-middle">
+                                    <table id="dataTable" class="table text-nowrap table-dark mb-0 align-middle">
                                         <thead class="text-bg-dark fs-4">
                                         <tr>
-                                            <th scope="col">Employee Code</th>
-                                            <th scope="col">Employee Name</th>
-                                            <th scope="col">Profile Pic</th>
-                                            <th scope="col">Gender</th>
-                                            <th scope="col">Join Date</th>
-                                            <th scope="col">Designation</th>
+                                            <th scope="col">Item Code</th>
+                                            <th scope="col">Item Description</th>
+                                            <th scope="col">Item Picture</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Supplier Code</th>
+                                            <th scope="col">Supplier Name</th>
+                                            <th scope="col">Unit Price - Sale</th>
+                                            <th scope="col">Unit Price - Buy</th>
+                                            <th scope="col">Expected Profit</th>
+                                            <th scope="col">Profit Margin</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Access Role</th>
-                                            <th scope="col">Date of Birth</th>
-                                            <th scope="col">Attached Branch</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Contact No.</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Emergency Contact</th>
-                                            <th scope="col">Guardian Contact</th>
+                                            <th scope="col">Size</th>
+                                            <th scope="col">Quantity</th>
                                         </tr>
                                         </thead>
-                                        <tbody id="tblEmployee">
+                                        <tbody id="tblInventory">
                                         <tr>
                                             <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
+                                            <td>Shoe</td>
+                                            <td>Image</td>
+                                            <td>Footwear</td>
+                                            <td>8</td>
+                                            <td>123</td>
+                                            <td>Supplier A</td>
+                                            <td>50.00</td>
+                                            <td>30.00</td>
+                                            <td>20.00</td>
+                                            <td>40%</td>
+                                            <td>Available</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
+                                            <td>Sandal</td>
+                                            <td>Image</td>
+                                            <td>Footwear</td>
+                                            <td>7</td>
+                                            <td>456</td>
+                                            <td>Supplier B</td>
+                                            <td>40.00</td>
+                                            <td>25.00</td>
+                                            <td>15.00</td>
+                                            <td>37.5%</td>
+                                            <td>Available</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
+                                            <td>Slipper</td>
+                                            <td>Image</td>
+                                            <td>Footwear</td>
+                                            <td>9</td>
+                                            <td>789</td>
+                                            <td>Supplier C</td>
+                                            <td>35.00</td>
+                                            <td>20.00</td>
+                                            <td>15.00</td>
+                                            <td>42.9%</td>
+                                            <td>Low</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -507,7 +461,7 @@
 <script src="../assets/js/sidebarmenu.js"></script>
 <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
 <script src="../assets/js/validation-controller.js"></script>
-<script src="../assets/js/add-employee.js"></script>
+<script src="../assets/js/add-product.js"></script>
 </body>
 
 </html>
