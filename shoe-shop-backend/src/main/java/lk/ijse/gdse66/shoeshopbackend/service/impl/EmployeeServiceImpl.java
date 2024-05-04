@@ -32,6 +32,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employeeId != null && employeeRepository.existsById(employeeId)) {
             throw new DuplicateRecordException("Employee with ID " + employeeId + " already exists.");
         }
+        if (employeeDTO.getEmail() != null && employeeRepository.existsByEmail(employeeDTO.getEmail())) {
+            throw new DuplicateRecordException("Employee with Email " + employeeDTO.getEmail() + " already exists.");
+        }
         Employee employee = modelMapper.map(employeeDTO, Employee.class);
         employeeRepository.save(employee);
     }
@@ -48,7 +51,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (!employeeRepository.existsById(employeeId)) {
             throw new NotFoundException("Employee with ID " + employeeId + " does not exist.");
         }
-
+        if (employeeDTO.getEmail() != null && employeeRepository.existsByEmail(employeeDTO.getEmail())) {
+            throw new DuplicateRecordException("Employee with Email " + employeeDTO.getEmail() + " already exists.");
+        }
         Employee employee = modelMapper.map(employeeDTO, Employee.class);
         employeeRepository.save(employee);
     }

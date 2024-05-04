@@ -16,4 +16,6 @@ public interface SupplierService {
     String generateNextId();
 
     List<SupplierDTO> searchBySupName(String name);
+
+    SupplierDTO getOneSupplier(String id);
 }

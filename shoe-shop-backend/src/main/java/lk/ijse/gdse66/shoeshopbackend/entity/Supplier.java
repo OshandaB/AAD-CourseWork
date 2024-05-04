@@ -2,14 +2,13 @@ package lk.ijse.gdse66.shoeshopbackend.entity;
 
 import jakarta.persistence.*;
 import lk.ijse.gdse66.shoeshopbackend.util.Category;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Supplier {
     @Id
     @Column(name = "supplier_code")

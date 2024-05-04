@@ -5,10 +5,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
-import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.EmployeeDTO;
-import lk.ijse.gdse66.shoeshopbackend.entity.ResponseDTO;
-import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
+import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
 import lk.ijse.gdse66.shoeshopbackend.service.EmployeeService;
 import lk.ijse.gdse66.shoeshopbackend.util.CivilStatus;
 import lk.ijse.gdse66.shoeshopbackend.util.Gender;
@@ -17,13 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -195,6 +190,8 @@ public class EmployeeController {
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
 }
 

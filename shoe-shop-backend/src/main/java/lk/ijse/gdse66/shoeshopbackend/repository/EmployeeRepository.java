@@ -10,4 +10,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,String> {
     Employee findTopByOrderByIdDesc();
 
     List<Employee> findByNameStartingWith(String name);
+
+    boolean existsByEmail (String email);
 }

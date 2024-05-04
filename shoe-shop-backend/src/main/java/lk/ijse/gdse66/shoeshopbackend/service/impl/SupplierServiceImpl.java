@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -78,5 +79,15 @@ public class SupplierServiceImpl implements SupplierService {
     public List<SupplierDTO> searchBySupName(String name) {
         List<Supplier> supplierList = supplierRepository.findByNameStartingWith(name);
         return modelMapper.map(supplierList,new TypeToken<List<SupplierDTO>>(){}.getType());
+    }
+
+    @Override
+    public SupplierDTO getOneSupplier(String id) {
+        if (supplierRepository.existsById(id)) {
+            Optional<Supplier> supplier = supplierRepository.findById(id);
+            return modelMapper.map(supplier.get(),SupplierDTO.class);
+        } else {
+            return null;
+        }
     }
 }

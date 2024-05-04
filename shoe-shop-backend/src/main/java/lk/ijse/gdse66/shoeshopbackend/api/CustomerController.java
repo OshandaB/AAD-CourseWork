@@ -2,7 +2,7 @@ package lk.ijse.gdse66.shoeshopbackend.api;
 
 import jakarta.validation.Valid;
 import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
-import lk.ijse.gdse66.shoeshopbackend.entity.ResponseDTO;
+import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
 import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

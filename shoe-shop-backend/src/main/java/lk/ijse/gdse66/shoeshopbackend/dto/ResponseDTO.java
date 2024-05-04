@@ -1,4 +1,4 @@
-package lk.ijse.gdse66.shoeshopbackend.entity;
+package lk.ijse.gdse66.shoeshopbackend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

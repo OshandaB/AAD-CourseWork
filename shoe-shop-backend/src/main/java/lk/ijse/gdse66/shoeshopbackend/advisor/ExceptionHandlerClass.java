@@ -1,9 +1,8 @@
 package lk.ijse.gdse66.shoeshopbackend.advisor;
 
-import lk.ijse.gdse66.shoeshopbackend.entity.ResponseDTO;
+import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.DuplicateRecordException;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.NotFoundException;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

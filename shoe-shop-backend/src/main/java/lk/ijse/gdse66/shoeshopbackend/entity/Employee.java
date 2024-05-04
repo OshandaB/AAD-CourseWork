@@ -68,6 +68,7 @@ public class Employee {
     @Column(name = "contact_no")
     private String contactNo;
 
+    @Column(unique = true)
     private String email;
 
     @Column(name = "emergency_contact")

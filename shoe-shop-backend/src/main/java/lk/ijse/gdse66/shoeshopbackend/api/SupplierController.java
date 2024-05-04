@@ -2,10 +2,8 @@ package lk.ijse.gdse66.shoeshopbackend.api;
 
 
 import jakarta.validation.Valid;
-import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.SupplierDTO;
-import lk.ijse.gdse66.shoeshopbackend.entity.ResponseDTO;
-import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
+import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
 import lk.ijse.gdse66.shoeshopbackend.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +24,14 @@ public class SupplierController {
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveSupplier( @RequestBody SupplierDTO supplierDTO) {
+    public void saveSupplier(@Valid @RequestBody SupplierDTO supplierDTO) {
 
         supplierService.saveSupplier(supplierDTO);
     }
 
     @PatchMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateSupplier(@RequestBody SupplierDTO supplierDTO) {
+    public void updateSupplier(@Valid @RequestBody SupplierDTO supplierDTO) {
 
         supplierService.updateSupplier(supplierDTO);
     }
@@ -97,6 +95,30 @@ public class SupplierController {
             responseDTO.setCode(HttpStatus.OK);
             responseDTO.setMessage("Success");
             responseDTO.setData(supplierDTOS);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getOneSupplier/{id}")
+    public ResponseEntity<ResponseDTO> getOneSupplier(@PathVariable String id) {
+        try {
+            SupplierDTO supplierDTO = supplierService.getOneSupplier(id);
+
+            if(supplierDTO==null){
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.CREATED);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(supplierDTO);
             return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
