@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $("#updateCustomer").prop("disabled", true);
     $("#deleteCustomer").prop("disabled", true);
     getAllCustomers();
@@ -227,6 +228,7 @@ $('#deleteCustomer').click(function () {
 let repurseDate
 
 function getAllCustomers() {
+      console.log(token)
     $("#updateCustomer").prop("disabled", true);
     $("#deleteCustomer").prop("disabled", true);
     $("#tblCustomer").empty()
@@ -234,6 +236,9 @@ function getAllCustomers() {
         url: 'http://localhost:8080/api/v1/customers/gelAllCustomers',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
 
             $.each(response.data, function (index, customer) {

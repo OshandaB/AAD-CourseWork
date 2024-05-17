@@ -22,12 +22,21 @@ $('#saveInventory').click(function () {
     sizeInputs.each(function(index) {
         const size = $(this).val(); // Get size value
         const qty = qtyInputs.eq(index).val(); // Get corresponding quantity value
+        let status;
+        if (qty < 10) {
+            status = "Low";
+        } else if (qty == 0) {
+            status = "Not Available";
+        } else {
+            status = "Available";
+        }
 
         // Construct an object with size and quantity
         const sizeQtyObject = {
             itemCode:id,
             size: size,
-            quantity: qty
+            quantity: qty,
+            status: status
         };
 
         // Push the object to the array
@@ -53,7 +62,7 @@ $('#saveInventory').click(function () {
     let profitMargin = $('#profitMargin').val();
     let status = $('#status').val();
     let qty = $('#qty').val();
-    if (!id || !name || !itemPictureInput  || !category  || !supCode || !supName || !unitPriceSale || !unitPriceBuy || !expectedProfit || !profitMargin || !status ) {
+    if (!id || !name || !itemPictureInput  || !category  || !supCode || !supName || !unitPriceSale || !unitPriceBuy || !expectedProfit || !profitMargin) {
         alert("Please fill in all required fields.");
         return;
     }
@@ -104,7 +113,6 @@ $('#saveInventory').click(function () {
                 "unitPriceBuy":unitPriceBuy,
                 "expectedProfit":expectedProfit,
                 "profitMargin":profitMargin,
-                "status":status,
                 "shoeSizeDTOList":sizeQtyArray
 
             }),
@@ -142,13 +150,23 @@ $('#updateInventory').click(function () {
         const qty = qtyInputs.eq(index).val(); // Get corresponding quantity value
         const sId = idInput.eq(index).val();
         // Construct an object with size and quantity
+        let status;
+        if (qty < 10) {
+            status = "Low";
+        } else if (qty == 0) {
+            status = "Not Available";
+        } else {
+            status = "Available";
+        }
+
+        // Construct an object with size and quantity
         const sizeQtyObject = {
             id:sId,
             itemCode:id,
             size: size,
-            quantity: qty
+            quantity: qty,
+            status: status
         };
-
         // Push the object to the array
         sizeQtyArray.push(sizeQtyObject);
     });
@@ -172,7 +190,7 @@ $('#updateInventory').click(function () {
     let profitMargin = $('#profitMargin').val();
     let status = $('#status').val();
     let qty = $('#qty').val();
-    if (!id || !name || !itemPictureInput  || !category  || !supCode || !supName || !unitPriceSale || !unitPriceBuy || !expectedProfit || !profitMargin || !status ) {
+    if (!id || !name || !itemPictureInput  || !category  || !supCode || !supName || !unitPriceSale || !unitPriceBuy || !expectedProfit || !profitMargin  ) {
         alert("Please fill in all required fields.");
         return;
     }
@@ -222,7 +240,6 @@ $('#updateInventory').click(function () {
                 "unitPriceBuy":unitPriceBuy,
                 "expectedProfit":expectedProfit,
                 "profitMargin":profitMargin,
-                "status":status,
                 "shoeSizeDTOList":sizeQtyArray
 
             }),
@@ -266,12 +283,14 @@ function getAllProducts() {
                 let sizes = '';
                 let quantities = '';
                 let ids ='';
+                let status = '';
 
                 // Concatenate sizes and quantities separately
                 $.each(product.shoeSizeDTOList, function (i, shoeSize) {
                    ids += `${shoeSize.id}<br>`;
                     sizes += `${shoeSize.size}<br>`;
                     quantities += `${shoeSize.quantity}<br>`;
+                    status += `${shoeSize.status}<br>`;
                 });
                 let row = `<tr>
                      <td>${product.itemCode}</td>
@@ -285,7 +304,7 @@ function getAllProducts() {
                       <td>${product.unitPriceBuy}</td>
                         <td>${product.expectedProfit}</td>
                       <td>${product.profitMargin}</td>
-                      <td>${product.status}</td>  
+                      <td>${status}</td>  
                       <td>${sizes}</td> 
                       <td>${quantities}</td>
                        <td class="d-none">${ids}</td>`;
@@ -648,4 +667,5 @@ function clearInventoryTextFields() {
 
 
 }
+
 
