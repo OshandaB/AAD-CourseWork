@@ -1,110 +1,201 @@
 $(function () {
 
+    // setSalesOverview();
+  /*function setSalesOverview() {
 
-  // =====================================
-  // Profit
-  // =====================================
-  var chart = {
-    series: [
-      { name: "Earnings this month:", data: [355, 390, 300, 350, 390, 180, 355, 390] },
-      { name: "Expense this month:", data: [280, 250, 325, 215, 250, 310, 280, 250] },
-    ],
+    // =====================================
+    // Profit
+    // =====================================
+    var chart = {
+      series: [
+        { name: "Earnings this month:", data: [355, 390, 300, 350, 390, 180, 355, 390] },
+        // { name: "Expense this month:", data: [280, 250, 325, 215, 250, 310, 280, 250] },
+      ],
 
-    chart: {
-      type: "bar",
-      height: 345,
-      offsetX: -15,
-      toolbar: { show: true },
-      foreColor: "#adb0bb",
-      fontFamily: 'inherit',
-      sparkline: { enabled: false },
-    },
-
-
-    colors: ["#5D87FF", "#49BEFF"],
-
-
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "35%",
-        borderRadius: [6],
-        borderRadiusApplication: 'end',
-        borderRadiusWhenStacked: 'all'
+      chart: {
+        type: "bar",
+        height: 345,
+        offsetX: -15,
+        toolbar: { show: true },
+        foreColor: "#adb0bb",
+        fontFamily: 'inherit',
+        sparkline: { enabled: false },
       },
-    },
-    markers: { size: 0 },
-
-    dataLabels: {
-      enabled: false,
-    },
 
 
-    legend: {
-      show: false,
-    },
+      colors: ["#5D87FF", "#49BEFF"],
 
 
-    grid: {
-      borderColor: "rgba(0,0,0,0.1)",
-      strokeDashArray: 3,
-      xaxis: {
-        lines: {
-          show: false,
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "35%",
+          borderRadius: [6],
+          borderRadiusApplication: 'end',
+          borderRadiusWhenStacked: 'all'
         },
       },
-    },
+      markers: { size: 0 },
 
-    xaxis: {
-      type: "category",
-      categories: ["16/08", "17/08", "18/08", "19/08", "20/08", "21/08", "22/08", "23/08"],
-      labels: {
-        style: { cssClass: "grey--text lighten-2--text fill-color" },
+      dataLabels: {
+        enabled: false,
       },
-    },
 
 
-    yaxis: {
-      show: true,
-      min: 0,
-      max: 400,
-      tickAmount: 4,
-      labels: {
-        style: {
-          cssClass: "grey--text lighten-2--text fill-color",
-        },
+      legend: {
+        show: false,
       },
-    },
-    stroke: {
-      show: true,
-      width: 3,
-      lineCap: "butt",
-      colors: ["transparent"],
-    },
 
 
-    tooltip: { theme: "light" },
-
-    responsive: [
-      {
-        breakpoint: 600,
-        options: {
-          plotOptions: {
-            bar: {
-              borderRadius: 3,
-            }
+      grid: {
+        borderColor: "rgba(0,0,0,0.1)",
+        strokeDashArray: 3,
+        xaxis: {
+          lines: {
+            show: false,
           },
+        },
+      },
+
+      xaxis: {
+        type: "category",
+        categories: ["16/08", "17/08", "18/08", "19/08", "20/08", "21/08", "22/08", "23/08"],
+        labels: {
+          style: { cssClass: "grey--text lighten-2--text fill-color" },
+        },
+      },
+
+
+      yaxis: {
+        show: true,
+        min: 0,
+        max: 400,
+        tickAmount: 4,
+        labels: {
+          style: {
+            cssClass: "grey--text lighten-2--text fill-color",
+          },
+        },
+      },
+      stroke: {
+        show: true,
+        width: 3,
+        lineCap: "butt",
+        colors: ["transparent"],
+      },
+
+
+      tooltip: { theme: "light" },
+
+      responsive: [
+        {
+          breakpoint: 600,
+          options: {
+            plotOptions: {
+              bar: {
+                borderRadius: 3,
+              }
+            },
+          }
         }
-      }
-    ]
+      ]
 
 
-  };
+    };
 
-  var chart = new ApexCharts(document.querySelector("#chart"), chart);
-  chart.render();
+    var chart = new ApexCharts(document.querySelector("#chart"), chart);
+    chart.render().then(r => {
+      console.log(r);
+    });
+  }*/
 
+// Function to update the chart
+  function updateChart(salesMap) {
+    $('#chart').empty();
+    let dates = Object.keys(salesMap);
+    let payments = Object.values(salesMap);
 
+    var chartOptions = {
+      series: [
+        { name: "Earnings this month:", data: payments }
+      ],
+      chart: {
+        type: "bar",
+        height: 345,
+        offsetX: -15,
+        toolbar: { show: true },
+        foreColor: "#adb0bb",
+        fontFamily: 'inherit',
+        sparkline: { enabled: false },
+      },
+      colors: ["#5D87FF", "#49BEFF"],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "35%",
+          borderRadius: [6],
+          borderRadiusApplication: 'end',
+          borderRadiusWhenStacked: 'all'
+        },
+      },
+      markers: { size: 0 },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      grid: {
+        borderColor: "rgba(0,0,0,0.1)",
+        strokeDashArray: 3,
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+      },
+      xaxis: {
+        type: "category",
+        categories: dates,
+        labels: {
+          style: { cssClass: "grey--text lighten-2--text fill-color" },
+        },
+      },
+      yaxis: {
+        show: true,
+        min: 0,
+        max: Math.max(...payments) + 50, // Adjust max value according to the data
+        tickAmount: 4,
+        labels: {
+          style: {
+            cssClass: "grey--text lighten-2--text fill-color",
+          },
+        },
+      },
+      stroke: {
+        show: true,
+        width: 3,
+        lineCap: "butt",
+        colors: ["transparent"],
+      },
+      tooltip: { theme: "light" },
+      responsive: [
+        {
+          breakpoint: 600,
+          options: {
+            plotOptions: {
+              bar: {
+                borderRadius: 3,
+              }
+            },
+          }
+        }
+      ]
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), chartOptions);
+    chart.render();
+  }
   // =====================================
   // Breakup
   // =====================================
@@ -208,4 +299,47 @@ $(function () {
     },
   };
   new ApexCharts(document.querySelector("#earning"), earning).render();
+
+  $('#salesMonth').click(function () {
+    let dateString = $('#salesMonth').val();
+    const dateParts = dateString.split('/');
+
+// Extract the year and month
+    const year = dateParts[0];
+    const month = dateParts[1];
+    //create ajax request
+    $.ajax({
+      url: 'http://localhost:8080/api/v1/dashboard/filterByMonth/'+month+'/'+year,
+      method: 'GET',
+      contentType: 'application/json',
+      headers: {
+        'Authorization': 'Bearer '+token
+      },
+      success: function (response) {
+        console.log(response.data);
+
+        let salesMap = {};
+        $.each(response.data, function (index, sales) {
+          console.log(sales.date);
+          console.log(sales.totalPayment);
+          //If there are many payments on the same day, add all the payments to the relevant day
+          if (sales.date in salesMap) {
+            salesMap[sales.date] += sales.totalPayment;
+          } else {
+            salesMap[sales.date] = sales.totalPayment;
+          }
+          console.log(salesMap);
+        });
+   updateChart(salesMap);
+      },
+      error: function (jqXHR,error) {
+        console.log(error);
+
+      }
+
+
+
+    });
+  });
 })
+

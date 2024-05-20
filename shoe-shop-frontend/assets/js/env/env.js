@@ -1,2 +1,2 @@
 
-var token = "token";
+var token = localStorage.getItem('token');

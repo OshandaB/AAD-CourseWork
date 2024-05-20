@@ -21,14 +21,16 @@ $(document).ready(function () {
                 console.log(xhr.status);
                 if (xhr.status === 200) {
                     //set token in env.js
-                    token = data.token;
+                    localStorage.setItem('token', data.token);
+
                     console.log(token);
 
 
-                    // window.location.replace('dashboard.html');
+                    window.location.replace('admin-index.html');
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
+              
                 console.error(jqXHR);
                 console.log(textStatus)
             }

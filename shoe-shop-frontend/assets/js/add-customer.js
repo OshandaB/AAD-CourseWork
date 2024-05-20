@@ -228,7 +228,7 @@ $('#deleteCustomer').click(function () {
 let repurseDate
 
 function getAllCustomers() {
-      console.log(token)
+
     $("#updateCustomer").prop("disabled", true);
     $("#deleteCustomer").prop("disabled", true);
     $("#tblCustomer").empty()
@@ -280,7 +280,9 @@ function getAllCustomers() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+              if (jqXHR.status === 401) {
+                  window.location.replace('authentication-login.html');
+              }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -336,6 +338,9 @@ function generateNextCustId() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/customers/genarateNextId',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log("generate" + response);
             let custId = response;
@@ -354,8 +359,11 @@ function generateNextCustId() {
 
             }
         },
-        error: function (error) {
+        error: function (jqXHR,error) {
             console.log(error);
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             $('#customerCode').val("CUS-001");
         }
     });
