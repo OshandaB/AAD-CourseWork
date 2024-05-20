@@ -1,5 +1,6 @@
 package lk.ijse.gdse66.shoeshopbackend.repository;
 
+import lk.ijse.gdse66.shoeshopbackend.entity.Inventory;
 import lk.ijse.gdse66.shoeshopbackend.entity.ShoeSize;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,4 +17,6 @@ public interface ShoeSizeRepository extends JpaRepository<ShoeSize,String> {
     @Modifying
     @Query(value = "DELETE FROM shoe_size WHERE item_code = :itemCode", nativeQuery = true)
     void deleteByItemCode(String itemCode);
+
+    ShoeSize findByItemCodeAndSize(Inventory itemCode, String size);
 }

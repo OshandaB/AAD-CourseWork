@@ -2,18 +2,26 @@ package lk.ijse.gdse66.shoeshopbackend.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
+import lk.ijse.gdse66.shoeshopbackend.dto.SupplierDTO;
 import lk.ijse.gdse66.shoeshopbackend.entity.Customer;
+import lk.ijse.gdse66.shoeshopbackend.entity.Supplier;
 import lk.ijse.gdse66.shoeshopbackend.repository.CustomerRepository;
 import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.DuplicateRecordException;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.NotFoundException;
+import lk.ijse.gdse66.shoeshopbackend.util.EmailSender;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerRepository customerRepository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EmailSender emailSender;
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
         String customerId = customerDTO.getId();
@@ -77,6 +88,35 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> searchByName(String name) {
         List<Customer> customerList = customerRepository.findByNameStartingWith(name);
         return modelMapper.map(customerList,new TypeToken<List<CustomerDTO>>(){}.getType());
+
+    }
+
+    @Override
+    public CustomerDTO getOneCustomer(String id) {
+        if (customerRepository.existsById(id)) {
+            Optional<Customer> customer = customerRepository.findById(id);
+            return modelMapper.map(customer.get(), CustomerDTO.class);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void sendEmail() {
+//        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now();
+        Instant instant = today.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Date date = Date.from(instant);
+        List<Customer> birthdayCustomers = customerRepository.findByDob(date);
+        System.out.println(birthdayCustomers);
+        for (Customer customer : birthdayCustomers) {
+            String subject = "Happy Birthday!";
+            String text = String.format("Dear %s, \n\nHappy Birthday! We hope you have a great day!\n\nBest Regards,\nYour Company", customer.getName());
+            emailSender.sendSimpleMessage(customer.getEmail(), subject, text);
+        }
+//                    String subject = "Happy Birthday!";
+//            String text = String.format("Dear %s, \n\nHappy Birthday! We hope you have a great day!\n\nBest Regards,\nYour Company", "oshanda");
+//            emailSender.sendSimpleMessage("kaveensandeepa66@gmail.com", subject, text);
 
     }
 }

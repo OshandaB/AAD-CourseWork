@@ -2,8 +2,11 @@ package lk.ijse.gdse66.shoeshopbackend.advisor;
 
 import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.DuplicateRecordException;
+import lk.ijse.gdse66.shoeshopbackend.service.exception.InvalidCredentialsException;
+import lk.ijse.gdse66.shoeshopbackend.service.exception.InvalidPasswordException;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +29,21 @@ public class ExceptionHandlerClass {
     @ExceptionHandler({NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseDTO notFoundErrorHandle(NotFoundException e){
+        return new ResponseDTO(HttpStatus.NOT_FOUND, e.getMessage(), null);
+    }
+    @ExceptionHandler({UsernameNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseDTO userNotFoundErrorHandle(UsernameNotFoundException e){
+        return new ResponseDTO(HttpStatus.NOT_FOUND, e.getMessage(), null);
+    }
+    @ExceptionHandler({InvalidCredentialsException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseDTO invalidCredentialsErrorHandle(InvalidCredentialsException e){
+        return new ResponseDTO(HttpStatus.NOT_FOUND, e.getMessage(), null);
+    }
+    @ExceptionHandler({InvalidPasswordException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseDTO invalidPasswordErrorHandle(InvalidPasswordException e){
         return new ResponseDTO(HttpStatus.NOT_FOUND, e.getMessage(), null);
     }
 

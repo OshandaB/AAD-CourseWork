@@ -18,4 +18,5 @@ public class ShoeSizeDTO implements Serializable {
     private String itemCode;
     private String size;
     private int quantity;
+    private String status;
 }

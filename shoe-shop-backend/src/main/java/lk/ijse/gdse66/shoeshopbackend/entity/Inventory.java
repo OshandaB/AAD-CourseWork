@@ -44,4 +44,7 @@ public class Inventory {
     @OneToMany(mappedBy = "itemCode", cascade = CascadeType.ALL)
     private List<ShoeSize> shoeSizes;
 
+    @OneToMany(mappedBy = "inventory",cascade = CascadeType.ALL)
+    private List<SalesItem> salesItems;
+
 }

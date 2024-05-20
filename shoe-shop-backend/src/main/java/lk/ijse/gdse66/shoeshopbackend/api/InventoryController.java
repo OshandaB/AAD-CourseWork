@@ -1,10 +1,7 @@
 package lk.ijse.gdse66.shoeshopbackend.api;
 
 import jakarta.validation.Valid;
-import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
-import lk.ijse.gdse66.shoeshopbackend.dto.InventoryDTO;
-import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
-import lk.ijse.gdse66.shoeshopbackend.dto.SupplierDTO;
+import lk.ijse.gdse66.shoeshopbackend.dto.*;
 import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
 import lk.ijse.gdse66.shoeshopbackend.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +100,123 @@ public class InventoryController {
         }
     }
 
+    @GetMapping(value = "/searchByCateFname/{cate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDTO> searchByCateFname(@PathVariable String cate) {
 
+        try {
+            List<InventoryDTO> inventoryDTOS = inventoryService.searchByCateFname(cate);
+            if (inventoryDTOS == null) {
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.OK);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(inventoryDTOS);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/searchByCateGenderName/{cate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDTO> searchByCateGenderName(@PathVariable String cate) {
+
+        try {
+            List<InventoryDTO> inventoryDTOS = inventoryService.searchByCateGenderName(cate);
+            if (inventoryDTOS == null) {
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.OK);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(inventoryDTOS);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/searchByCatePrice/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDTO> searchByCatePriceName(@PathVariable String price) {
+
+        try {
+            List<InventoryDTO> inventoryDTOS = inventoryService.searchByCatePriceName(price);
+            if (inventoryDTOS == null) {
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.OK);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(inventoryDTOS);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getOneProduct/{id}")
+    public ResponseEntity<ResponseDTO> getOneProduct(@PathVariable String id) {
+        try {
+            InventoryDTO inventoryDTO = inventoryService.getOneProduct(id);
+
+            if(inventoryDTO==null){
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.CREATED);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(inventoryDTO);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getQty/{id}/{size}")
+    public ResponseEntity<ResponseDTO> getQtyByItemCodeAndSize(@PathVariable String id,@PathVariable String size) {
+        try {
+            ShoeSizeDTO shoeSizeDTO = inventoryService.getQtyByItemCodeAndSize(id,size);
+
+            if(shoeSizeDTO==null){
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.CREATED);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(shoeSizeDTO);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

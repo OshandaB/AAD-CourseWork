@@ -3,6 +3,7 @@ package lk.ijse.gdse66.shoeshopbackend.service.impl;
 import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.InventoryDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.ShoeSizeDTO;
+import lk.ijse.gdse66.shoeshopbackend.dto.SupplierDTO;
 import lk.ijse.gdse66.shoeshopbackend.entity.Customer;
 import lk.ijse.gdse66.shoeshopbackend.entity.Inventory;
 import lk.ijse.gdse66.shoeshopbackend.entity.ShoeSize;
@@ -33,6 +34,7 @@ public class InventoryServiceImpl implements InventoryService {
     ShoeSizeRepository shoeSizeRepository;
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
     public void saveInventory(InventoryDTO inventoryDTO) {
         String itemCode = inventoryDTO.getItemCode();
@@ -48,12 +50,13 @@ public class InventoryServiceImpl implements InventoryService {
             ShoeSize shoeSize = new ShoeSize();
             shoeSize.setSize(shoeSizeDTO.getSize());
             shoeSize.setQuantity(shoeSizeDTO.getQuantity());
+            shoeSize.setStatus(shoeSizeDTO.getStatus());
             Inventory inventory1 = new Inventory();
             inventory1.setItemCode(shoeSizeDTO.getItemCode());
             shoeSize.setItemCode(inventory1);
             shoeSizeRepository.save(shoeSize);
         }
-        
+
 
     }
 
@@ -65,7 +68,7 @@ public class InventoryServiceImpl implements InventoryService {
 
         if (inventory == null) {
             return "";
-        }else{
+        } else {
             return inventory.getItemCode();
         }
     }
@@ -138,14 +141,14 @@ public class InventoryServiceImpl implements InventoryService {
                     ShoeSize shoeSize = optionalShoeSize.get();
                     shoeSize.setQuantity(shoeSizeDTO.getQuantity());
                     shoeSize.setSize(shoeSizeDTO.getSize());
-
+                    shoeSize.setStatus(shoeSizeDTO.getStatus());
                     // Update shoe size in the repository
                     shoeSizeRepository.save(shoeSize);
                 } else {
 
                     // Shoe size not found, you might want to handle this case based on your business logic
                 }
-            }else {
+            } else {
                 ShoeSize newShoeSize = modelMapper.map(shoeSizeDTO, ShoeSize.class);
                 Inventory inventory2 = new Inventory();
                 inventory2.setItemCode(shoeSizeDTO.getItemCode());
@@ -153,7 +156,7 @@ public class InventoryServiceImpl implements InventoryService {
                 shoeSizeRepository.save(newShoeSize);
             }
         }
-        Inventory inventory1= modelMapper.map(inventoryDTO, Inventory.class);
+        Inventory inventory1 = modelMapper.map(inventoryDTO, Inventory.class);
         Supplier supplier = new Supplier();
         supplier.setId(inventoryDTO.getSupplierCode());
         inventory1.setSupplierCode(supplier);
@@ -190,5 +193,99 @@ public class InventoryServiceImpl implements InventoryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<InventoryDTO> searchByCateFname(String cate) {
+        List<Inventory> all = inventoryRepository.findByCategoryStartingWith(cate);
+        // Map Inventory to InventoryDTO
+        return all.stream()
+                .map(inventory -> {
+                    InventoryDTO dto = modelMapper.map(inventory, InventoryDTO.class);
+                    dto.setSupplierCode(inventory.getSupplierCode().getId());
+                    dto.setShoeSizeDTOList(inventory.getShoeSizes().stream()
+                            .map(shoeSize -> modelMapper.map(shoeSize, ShoeSizeDTO.class))
+                            .collect(Collectors.toList()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<InventoryDTO> searchByCateGenderName(String cate) {
+        List<Inventory> all = inventoryRepository.findCategoriesNotEndingWithGender(cate);
+        // Map Inventory to InventoryDTO
+        return all.stream()
+                .map(inventory -> {
+                    InventoryDTO dto = modelMapper.map(inventory, InventoryDTO.class);
+                    dto.setSupplierCode(inventory.getSupplierCode().getId());
+                    dto.setShoeSizeDTOList(inventory.getShoeSizes().stream()
+                            .map(shoeSize -> modelMapper.map(shoeSize, ShoeSizeDTO.class))
+                            .collect(Collectors.toList()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InventoryDTO> searchByCatePriceName(String price) {
+        System.out.println(price);
+        List<Inventory> all;
+        switch (price) {
+            case "0-1000":
+                all = inventoryRepository.findItemsInPriceRange(0, 1000);
+                break;
+            case "1000-2000":
+                all = inventoryRepository.findItemsInPriceRange(1000, 2000);
+                break;
+            case "2000-3000":
+                all = inventoryRepository.findItemsInPriceRange(2000, 3000);
+                break;
+            case "Over 3000":
+                all = inventoryRepository.findItemsInPriceRange(3000, Double.MAX_VALUE); // assuming Double.MAX_VALUE represents infinity
+                break;
+            default:
+                all = inventoryRepository.findAll();
+        }
+        return all.stream()
+                .map(inventory -> {
+                    InventoryDTO dto = modelMapper.map(inventory, InventoryDTO.class);
+                    dto.setSupplierCode(inventory.getSupplierCode().getId());
+                    dto.setShoeSizeDTOList(inventory.getShoeSizes().stream()
+                            .map(shoeSize -> modelMapper.map(shoeSize, ShoeSizeDTO.class))
+                            .collect(Collectors.toList()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+
+    }
+
+    @Override
+    public InventoryDTO getOneProduct(String id) {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
+        if (inventoryOptional.isPresent()) {
+            Inventory inventory = inventoryOptional.get();
+            InventoryDTO inventoryDTO = modelMapper.map(inventory, InventoryDTO.class);
+
+            inventoryDTO.setSupplierCode(inventory.getSupplierCode().getId());
+
+
+            List<ShoeSizeDTO> shoeSizeDTOList = inventory.getShoeSizes().stream()
+                    .map(shoeSize -> modelMapper.map(shoeSize, ShoeSizeDTO.class))
+                    .collect(Collectors.toList());
+            inventoryDTO.setShoeSizeDTOList(shoeSizeDTOList);
+
+            return inventoryDTO;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public ShoeSizeDTO getQtyByItemCodeAndSize(String id, String size) {
+       Inventory inventory = new Inventory();
+       inventory.setItemCode(id);
+
+        ShoeSize codeAndSize = shoeSizeRepository.findByItemCodeAndSize(inventory, size);
+       return modelMapper.map(codeAndSize, ShoeSizeDTO.class);
+    }
 }

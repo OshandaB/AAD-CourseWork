@@ -15,4 +15,7 @@ public interface CustomerService {
     String generateNextId();
     List<CustomerDTO> searchByName(String name);
 
+    CustomerDTO getOneCustomer(String id);
+
+    void sendEmail();
 }

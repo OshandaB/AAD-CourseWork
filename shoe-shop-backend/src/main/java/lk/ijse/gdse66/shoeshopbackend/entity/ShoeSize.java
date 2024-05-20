@@ -19,5 +19,6 @@ public class ShoeSize {
     private Inventory itemCode;
     private String size;
     private int quantity;
+    private String status;
 
 }

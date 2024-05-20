@@ -43,8 +43,7 @@ public class InventoryDTO {
     private Double expectedProfit;
     @NotNull(message = "profitMargin is required")
     private Double profitMargin;
-    @NotNull(message = "status is required")
-    private String status;
+
 
     private List<ShoeSizeDTO> shoeSizeDTOList;
 }

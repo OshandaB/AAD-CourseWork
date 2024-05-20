@@ -3,6 +3,7 @@ package lk.ijse.gdse66.shoeshopbackend.api;
 import jakarta.validation.Valid;
 import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.ResponseDTO;
+import lk.ijse.gdse66.shoeshopbackend.dto.SupplierDTO;
 import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -93,6 +94,46 @@ public class CustomerController {
             responseDTO.setCode(HttpStatus.OK);
             responseDTO.setMessage("Success");
             responseDTO.setData(customerDTOS);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getOneCustomer/{id}")
+    public ResponseEntity<ResponseDTO> getOneCustomer(@PathVariable String id) {
+        try {
+            CustomerDTO customerDTO = customerService.getOneCustomer(id);
+
+            if(customerDTO==null){
+                responseDTO.setCode(HttpStatus.BAD_GATEWAY);
+                responseDTO.setMessage("No Data");
+                responseDTO.setData(null);
+                return new ResponseEntity<>(responseDTO, HttpStatus.BAD_GATEWAY);
+
+            }
+            responseDTO.setCode(HttpStatus.CREATED);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(customerDTO);
+            return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setData(e);
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/sendEmail")
+    public ResponseEntity<ResponseDTO> sendEmail() {
+        System.out.println("sout");
+        try {
+            customerService.sendEmail();
+            responseDTO.setCode(HttpStatus.CREATED);
+            responseDTO.setMessage("Success");
+            responseDTO.setData(null);
             return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             responseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
