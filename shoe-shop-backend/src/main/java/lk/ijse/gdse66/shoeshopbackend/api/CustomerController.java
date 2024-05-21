@@ -126,13 +126,15 @@ public class CustomerController {
             return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/sendEmail")
+
     public ResponseEntity<ResponseDTO> sendEmail() {
         System.out.println("sout");
         try {
             customerService.sendEmail();
             responseDTO.setCode(HttpStatus.CREATED);
-            responseDTO.setMessage("Success");
+            responseDTO.setMessage("Email Send SuccessFully!!!!");
             responseDTO.setData(null);
             return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
         } catch (Exception e) {

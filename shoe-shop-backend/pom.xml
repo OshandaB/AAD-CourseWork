@@ -90,7 +90,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-
+<!--		&lt;!&ndash; Ehcache &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-cache</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.ehcache</groupId>-->
+<!--			<artifactId>ehcache</artifactId>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>

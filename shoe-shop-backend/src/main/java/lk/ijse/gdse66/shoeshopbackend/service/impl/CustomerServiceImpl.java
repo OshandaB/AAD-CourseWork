@@ -4,8 +4,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lk.ijse.gdse66.shoeshopbackend.dto.CustomerDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.SupplierDTO;
 import lk.ijse.gdse66.shoeshopbackend.entity.Customer;
+import lk.ijse.gdse66.shoeshopbackend.entity.EmailLog;
 import lk.ijse.gdse66.shoeshopbackend.entity.Supplier;
 import lk.ijse.gdse66.shoeshopbackend.repository.CustomerRepository;
+import lk.ijse.gdse66.shoeshopbackend.repository.EmailLogRepository;
 import lk.ijse.gdse66.shoeshopbackend.service.CustomerService;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.DuplicateRecordException;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.NotFoundException;
@@ -28,6 +30,8 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    private EmailLogRepository emailLogRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -105,18 +109,42 @@ public class CustomerServiceImpl implements CustomerService {
     public void sendEmail() {
 //        LocalDate today = LocalDate.now();
         LocalDate today = LocalDate.now();
-        Instant instant = today.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Date date = Date.from(instant);
-        List<Customer> birthdayCustomers = customerRepository.findByDob(date);
+//        Instant instant = today.atStartOfDay(ZoneId.systemDefault()).toInstant();
+//        Date date = Date.from(instant);
+        int month = today.getMonthValue();
+        int day = today.getDayOfMonth();
+//        List<Customer> birthdayCustomers = customerRepository.findByDob(date);
+        List<Customer> birthdayCustomers = customerRepository.findByMonthAndDay(month, day);
+
         System.out.println(birthdayCustomers);
         for (Customer customer : birthdayCustomers) {
-            String subject = "Happy Birthday!";
-            String text = String.format("Dear %s, \n\nHappy Birthday! We hope you have a great day!\n\nBest Regards,\nYour Company", customer.getName());
-            emailSender.sendSimpleMessage(customer.getEmail(), subject, text);
+            if (!isBirthdayWishSent(customer.getId(), today)) {
+                System.out.println("email sent to "+customer.getEmail()+" "+customer.getName()+" "+customer.getId()+" "+today);
+                String subject = "Happy Birthday!";
+                String text = String.format("Dear %s, \n\nHappy Birthday! We hope you have a great day!\n\nBest Regards,\nHello Shoe Shop (PVT) LTD", customer.getName());
+                emailSender.sendSimpleMessage(customer.getEmail(), subject, text);
+                logEmailSent(customer.getId(), today);
+            }else {
+                System.out.println("email already sent to "+customer.getEmail()+" "+customer.getName()+" "+customer.getId()+" "+today);
+            }
+
         }
 //                    String subject = "Happy Birthday!";
 //            String text = String.format("Dear %s, \n\nHappy Birthday! We hope you have a great day!\n\nBest Regards,\nYour Company", "oshanda");
 //            emailSender.sendSimpleMessage("kaveensandeepa66@gmail.com", subject, text);
 
+    }
+    private boolean isBirthdayWishSent(String customerId, LocalDate date) {
+        Date utilDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return !emailLogRepository.findByCustomerIdAndSentDate(customerId, utilDate).isEmpty();
+    }
+
+    private void logEmailSent(String customerId, LocalDate date) {
+        Date utilDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        EmailLog emailLog = new EmailLog();
+        emailLog.setCustomerId(customerId);
+        emailLog.setSentDate(utilDate);
+        emailLogRepository.save(emailLog);
     }
 }

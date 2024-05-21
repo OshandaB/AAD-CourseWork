@@ -13,6 +13,7 @@ import lk.ijse.gdse66.shoeshopbackend.service.exception.InvalidCredentialsExcept
 import lk.ijse.gdse66.shoeshopbackend.service.exception.InvalidPasswordException;
 import lk.ijse.gdse66.shoeshopbackend.util.Role;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +27,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -71,6 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthResponse signUp(SignUpRequest signUpRequest) {
+        log.info("Creating New User {}", signUpRequest.getEmail());
         UserDTO userDTO = UserDTO.builder()
 
                 .email(signUpRequest.getEmail())
