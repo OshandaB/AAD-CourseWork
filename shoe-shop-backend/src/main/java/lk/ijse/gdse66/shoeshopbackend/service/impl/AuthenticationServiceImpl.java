@@ -4,8 +4,11 @@ package lk.ijse.gdse66.shoeshopbackend.service.impl;
 import lk.ijse.gdse66.shoeshopbackend.auth.request.SignInRequest;
 import lk.ijse.gdse66.shoeshopbackend.auth.request.SignUpRequest;
 import lk.ijse.gdse66.shoeshopbackend.auth.response.JwtAuthResponse;
+import lk.ijse.gdse66.shoeshopbackend.dto.EmployeeDTO;
 import lk.ijse.gdse66.shoeshopbackend.dto.UserDTO;
+import lk.ijse.gdse66.shoeshopbackend.entity.Employee;
 import lk.ijse.gdse66.shoeshopbackend.entity.User;
+import lk.ijse.gdse66.shoeshopbackend.repository.EmployeeRepository;
 import lk.ijse.gdse66.shoeshopbackend.repository.UserRepository;
 import lk.ijse.gdse66.shoeshopbackend.service.AuthenticationService;
 import lk.ijse.gdse66.shoeshopbackend.service.JwtService;
@@ -31,6 +34,7 @@ import java.util.UUID;
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -48,7 +52,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //        }
         User user = userRepository.findByEmail(signInRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!! Please Enter Valid Email"));
-
+        Employee employee = employeeRepository.findByEmail(signInRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Employee not found!! Please Enter Valid Email"));
         try {
             // Perform authentication
             authenticationManager.authenticate(
@@ -59,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String generateToken = jwtService.generateToken(user);
 
             // Return JWT token
-            return JwtAuthResponse.builder().token(generateToken).build();
+            return JwtAuthResponse.builder().token(generateToken).userDTO(modelMapper.map(user, UserDTO.class)).employeeDTO(modelMapper.map(employee, EmployeeDTO.class)).build();
 
         } catch (BadCredentialsException ex) {
             // Handle incorrect password

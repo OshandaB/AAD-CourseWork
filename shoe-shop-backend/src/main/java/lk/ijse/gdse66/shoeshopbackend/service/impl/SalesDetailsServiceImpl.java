@@ -2,6 +2,7 @@ package lk.ijse.gdse66.shoeshopbackend.service.impl;
 
 import lk.ijse.gdse66.shoeshopbackend.dto.*;
 import lk.ijse.gdse66.shoeshopbackend.entity.*;
+import lk.ijse.gdse66.shoeshopbackend.projection.SalesItemByYearMonthProjection;
 import lk.ijse.gdse66.shoeshopbackend.repository.*;
 import lk.ijse.gdse66.shoeshopbackend.service.SalesDetailsService;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.NotFoundException;
@@ -166,5 +167,22 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 
 
         salesItemRepository.delete(salesItem);
+    }
+
+    @Override
+    public List<String> mostSaleItemFour() {
+        return salesItemRepository.findMostSoldItemCode();
+    }
+
+    @Override
+    public String mostSalesItemByDate() {
+        return null;
+//        return salesItemRepository.findMostSoldItemCodeOnDate();
+    }
+
+    @Override
+    public List<SalesItemByYearMonthProjection> getOrderDetailsByMonthAndYear(int year, int month) {
+        return salesItemRepository.findOrderDetailsWithDate(year, month);
+
     }
 }

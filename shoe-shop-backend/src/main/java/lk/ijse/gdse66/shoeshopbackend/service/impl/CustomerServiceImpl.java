@@ -134,6 +134,12 @@ public class CustomerServiceImpl implements CustomerService {
 //            emailSender.sendSimpleMessage("kaveensandeepa66@gmail.com", subject, text);
 
     }
+
+    @Override
+    public int countCustomers() {
+        return customerRepository.getCustomerCount();
+    }
+
     private boolean isBirthdayWishSent(String customerId, LocalDate date) {
         Date utilDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return !emailLogRepository.findByCustomerIdAndSentDate(customerId, utilDate).isEmpty();

@@ -18,4 +18,6 @@ public interface CustomerService {
     CustomerDTO getOneCustomer(String id);
 
     void sendEmail();
+
+    int countCustomers();
 }

@@ -273,7 +273,6 @@ public class InventoryServiceImpl implements InventoryService {
                     .map(shoeSize -> modelMapper.map(shoeSize, ShoeSizeDTO.class))
                     .collect(Collectors.toList());
             inventoryDTO.setShoeSizeDTOList(shoeSizeDTOList);
-
             return inventoryDTO;
         } else {
             return null;

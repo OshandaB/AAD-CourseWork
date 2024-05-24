@@ -16,4 +16,8 @@ public interface CustomerRepository extends JpaRepository<Customer,String> {
 //    List<Customer> findByDob(Date date);
 @Query(value = "SELECT * FROM customer  WHERE MONTH(dob) = ?1 AND DAY(dob) = ?2", nativeQuery = true)
 List<Customer> findByMonthAndDay(int month, int day);
+
+  //get customers count
+    @Query(value = "SELECT COUNT(customer_code) FROM customer", nativeQuery = true)
+    int getCustomerCount();
 }

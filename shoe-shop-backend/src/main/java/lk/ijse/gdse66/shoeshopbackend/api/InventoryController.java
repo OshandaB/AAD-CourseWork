@@ -174,6 +174,7 @@ public class InventoryController {
 
     @GetMapping("/getOneProduct/{id}")
     public ResponseEntity<ResponseDTO> getOneProduct(@PathVariable String id) {
+        System.out.println("hello");
         try {
             InventoryDTO inventoryDTO = inventoryService.getOneProduct(id);
 

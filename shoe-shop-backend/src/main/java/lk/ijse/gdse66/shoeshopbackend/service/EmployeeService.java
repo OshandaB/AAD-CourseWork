@@ -17,4 +17,8 @@ public interface EmployeeService {
     String generateNextId();
 
     List<EmployeeDTO> searchByName(String name);
+
+    EmployeeDTO getOneEmployee(String id);
+
+    int countEmployees();
 }

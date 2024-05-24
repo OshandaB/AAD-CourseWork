@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,5 +86,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDTO> searchByName(String name) {
         List<Employee> employeeList = employeeRepository.findByNameStartingWith(name);
         return modelMapper.map(employeeList,new TypeToken<List<EmployeeDTO>>(){}.getType());
+    }
+
+    @Override
+    public EmployeeDTO getOneEmployee(String email) {
+        if (employeeRepository.existsById(email)) {
+            Optional<Employee> employee = employeeRepository.findByEmail(email);
+            return modelMapper.map(employee.get(), EmployeeDTO.class);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public int countEmployees() {
+        return (int) employeeRepository.count();
     }
 }
