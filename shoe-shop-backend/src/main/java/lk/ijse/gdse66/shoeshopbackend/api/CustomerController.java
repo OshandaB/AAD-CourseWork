@@ -130,11 +130,10 @@ public class CustomerController {
     @GetMapping("/sendEmail")
 
     public ResponseEntity<ResponseDTO> sendEmail() {
-        System.out.println("sout");
         try {
             customerService.sendEmail();
             responseDTO.setCode(HttpStatus.CREATED);
-            responseDTO.setMessage("Email Send SuccessFully!!!!");
+            responseDTO.setMessage("Wishes Send SuccessFully!!!!");
             responseDTO.setData(null);
             return new ResponseEntity<>(responseDTO, HttpStatus.ACCEPTED);
         } catch (Exception e) {

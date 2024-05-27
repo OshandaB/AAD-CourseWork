@@ -125,7 +125,7 @@ public class CustomerServiceImpl implements CustomerService {
                 emailSender.sendSimpleMessage(customer.getEmail(), subject, text);
                 logEmailSent(customer.getId(), today);
             }else {
-                System.out.println("email already sent to "+customer.getEmail()+" "+customer.getName()+" "+customer.getId()+" "+today);
+               throw  new RuntimeException("email already sent to "+customer.getEmail()+" "+customer.getName()+" "+customer.getId()+" "+today);
             }
 
         }
