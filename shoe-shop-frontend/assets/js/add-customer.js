@@ -76,7 +76,9 @@ $('#saveCustomer').click(function () {
         url: 'http://localhost:8080/api/v1/customers/save',
         method: 'POST',
         contentType: 'application/json',
-
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         data: JSON.stringify({
             "id": id,
             "name": name,
@@ -96,7 +98,17 @@ $('#saveCustomer').click(function () {
         }),
         success: function (response) {
 
-            alert("Customer Save successful!");
+            // alert("Customer Save successful!");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Customer Added!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             getAllCustomers();
             clearCustTextFiels();
             generateNextCustId();
@@ -104,10 +116,18 @@ $('#saveCustomer').click(function () {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message);
-            // $.each(jqXHR.responseJSON.data, function (index, customer) {
-            //     alert(`${customer.message}`)
-            // })
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Customer Added Failed! Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
+
             console.log(jqXHR);
             console.log(textStatus)
         }
@@ -168,7 +188,9 @@ $('#updateCustomer').click(function () {
         url: 'http://localhost:8080/api/v1/customers/update',
         method: 'PATCH',
         contentType: 'application/json',
-
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         data: JSON.stringify({
             "id": id,
             "name": name,
@@ -189,14 +211,33 @@ $('#updateCustomer').click(function () {
         }),
         success: function (response) {
 
-            alert("Customer Update successful!");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Customer Updated!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             getAllCustomers();
             clearCustTextFiels();
             generateNextCustId();
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Customer Update failed! Please check your input and try again.");
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Customer Update Failed! Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             console.log(jqXHR);
             console.log(textStatus)
         }
@@ -206,24 +247,57 @@ $('#updateCustomer').click(function () {
 
 $('#deleteCustomer').click(function () {
     let id = $('#customerCode').val();
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/customers/delete/' + id,
-        method: 'DELETE',
-        contentType: 'application/json',
-        success: function (response) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        background: '#202936',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        color:'white',
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/customers/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer '+token
+                },
+                success: function (response) {
 
-            alert("Customer Update successful!");
-            getAllCustomers();
-            clearCustTextFiels();
-            generateNextCustId();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Customer has been deleted.",
+                        background: '#202936',
+                        color:'white',
+                        icon: "success"
+                    });
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message)
-            console.log(jqXHR);
-            console.log(textStatus)
+                    getAllCustomers();
+                    clearCustTextFiels();
+                    generateNextCustId();
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: jqXHR.responseJSON.message,
+                        background: '#202936',
+                        color:'white',
+                        icon: "error"
+                    });
+                    // alert(jqXHR.responseJSON.message)
+                    console.log(jqXHR);
+                    console.log(textStatus)
+                }
+            });
+
         }
     });
+
 });
 let repurseDate
 
@@ -383,6 +457,9 @@ function searchCustomerByName() {
         url: 'http://localhost:8080/api/v1/customers/searchByName/'+name,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 $('#tblCustomer').append('<tr><td colspan="16"  style="text-align: left; font-size: 16px;">No results found.</td></tr>');

@@ -121,18 +121,37 @@ $('#saveEmployee').click(function () {
         processData: false,
         contentType:false,
         data: formData,
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
-            alert("Employee saved successfully!");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Employee Added!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             getAllEmployees();
             clearEmpTextFiels();
             generateNextEmpId();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                alert(jqXHR.responseJSON.message);
-            } else {
-                alert("Error occurred while saving employee.");
-            }
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Employee Added Failed! Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
+
             console.log(jqXHR);
             console.log(textStatus);
         }
@@ -246,18 +265,36 @@ $('#updateEmployee').click(function () {
         processData: false,
         contentType:false,
         data: formData,
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
-            alert("Employee update successfully!");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Employee Updated!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             getAllEmployees();
             clearEmpTextFiels();
             generateNextEmpId();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                alert(jqXHR.responseJSON.message);
-            } else {
-                alert("Error occurred while update employee.");
-            }
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Employee Update Failed! Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             console.log(jqXHR);
             console.log(textStatus);
         }
@@ -266,30 +303,65 @@ $('#updateEmployee').click(function () {
 
 $('#deleteEmployee').click(function () {
     let id = $('#employeeCode').val();
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/employees/delete/' + id,
-        method: 'DELETE',
-        contentType: 'application/json',
-        success: function (response) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        background: '#202936',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        color:'white',
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/employees/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer '+token
+                },
+                success: function (response) {
 
-            alert("Employee Delete successful!");
-            getAllEmployees();
-            clearEmpTextFiels();
-            generateNextEmpId();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Employee has been deleted.",
+                        background: '#202936',
+                        color:'white',
+                        icon: "success"
+                    });
+                    getAllEmployees();
+                    clearEmpTextFiels();
+                    generateNextEmpId();
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message)
-            console.log(jqXHR);
-            console.log(textStatus)
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: jqXHR.responseJSON.message,
+                        background: '#202936',
+                        color:'white',
+                        icon: "error"
+                    });
+                    console.log(jqXHR);
+                    console.log(textStatus)
+                }
+            });
+
         }
     });
+
+
 });
 
 function generateNextEmpId() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/employees/genarateNextId',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log("generate" + response);
             let custId = response;
@@ -308,7 +380,10 @@ function generateNextEmpId() {
 
             }
         },
-        error: function (error) {
+        error: function (jqXHR,error) {
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.log(error);
             $('#employeeCode').val("EMP-001");
         }
@@ -323,6 +398,9 @@ function getAllEmployees() {
         url: 'http://localhost:8080/api/v1/employees/getAllEmployees',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
           console.log(response)
             $.each(response.data, function (index, employee) {
@@ -372,7 +450,9 @@ function getAllEmployees() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -465,6 +545,9 @@ function searchEmployeeByName() {
         url: 'http://localhost:8080/api/v1/employees/searchByName/'+name,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 $('#tblEmployee').append('<tr><td colspan="16"  style="text-align: left; font-size: 16px;">No results found.</td></tr>');

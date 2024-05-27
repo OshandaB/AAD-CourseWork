@@ -52,10 +52,37 @@ $('#placeOrder').on('click', function () {
 
 
     } else {
-     alert("Insufficient Credit!!!")
+
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Insufficient Credit!!!",
+            background: '#202936',
+            showConfirmButton: true,
+            timer: 3000,
+            color:'white',
+
+        });
     }
 
 }
+);
+
+$('#pay').on('click', function () {
+
+            placeOrderB();
+
+            clearPlaceOrderTextFields();
+            $('#tblCart').empty();
+            cartDetails = [];
+            // generateNextOrderId(function (nextOrderId) {
+            //     $('#oId').val(nextOrderId);
+            // });
+
+
+
+
+    }
 );
 $('#resetOrder').on('click', function () {
 
@@ -113,7 +140,16 @@ function addToCart() {
         $('#price').text("");
 
     }else {
-        alert("Please Check Quantity!")
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Please Check Quantity!",
+            background: '#202936',
+            showConfirmButton: true,
+            timer: 3000,
+            color:'white',
+
+        });
         loadAllItems();
     }
 
@@ -173,6 +209,9 @@ function deleteRow(button) {
             url: 'http://localhost:8080/api/v1/inventory/getQty/' + itemCode + '/' + sizes,
             method: 'GET',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             success: function (response) {
 
                 console.log(response.data)
@@ -193,6 +232,9 @@ function deleteRow(button) {
             url: 'http://localhost:8080/api/v1/inventory/getOneProduct/' + itemCode,
             method: 'GET',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             success: function (response) {
 
                 console.log(response.data)
@@ -225,6 +267,9 @@ function deleteRow(button) {
             url: 'http://localhost:8080/api/v1/customers/getOneCustomer/' + id,
             method: 'GET',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             success: function (response) {
 
                 console.log(response.data)
@@ -246,6 +291,9 @@ function deleteRow(button) {
             url: 'http://localhost:8080/api/v1/customers/gelAllCustomers',
             method: 'GET',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             success: function (response) {
 
                 $.each(response.data, function (index, customer) {
@@ -256,7 +304,9 @@ function deleteRow(button) {
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
+                if (jqXHR.status === 401) {
+                    window.location.replace('authentication-login.html');
+                }
                 console.error(jqXHR);
                 console.log(textStatus)
             }
@@ -268,6 +318,9 @@ function deleteRow(button) {
             url: 'http://localhost:8080/api/v1/inventory/gelAllProducts',
             method: 'GET',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             success: function (response) {
 
                 $.each(response.data, function (index, product) {
@@ -278,7 +331,9 @@ function deleteRow(button) {
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
+                if (jqXHR.status === 401) {
+                    window.location.replace('authentication-login.html');
+                }
                 console.error(jqXHR);
                 console.log(textStatus)
             }
@@ -329,12 +384,34 @@ function placeOrderB() {
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(orderObj),
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
-            alert("OrderPlaced successful!");
+
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "OrderPlaced successful!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "OrderPlaced Not successful!! Please check your input and try again.",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             console.log(jqXHR);
             console.log(textStatus)
         }
@@ -358,6 +435,9 @@ function generateNextOrderId() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/placeOrder/genarateNextId',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log("generate" + response);
             let custId = response;
@@ -377,6 +457,9 @@ function generateNextOrderId() {
             }
         },
         error: function (error) {
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.log(error);
             $('#orderId').val("ORD-001");
         }
@@ -402,7 +485,7 @@ $("#addPoint").keyup(function () {
         let discount = subTotal*parseFloat($('#discount').text())*0.01;
         $('#disPrice').text(discount)
 
-        $('.Total,.TotalC').text((subTotal-discount).toFixed(2));
+        $('.Total,.TotalC,#cardTotal').text((subTotal-discount).toFixed(2));
     }else {
         $('#discount').text("");
         $('#disPrice').text("");
@@ -478,8 +561,51 @@ $('#payMethod').on('click', function () {
 });
 
 $('#cardNext').on('click', function () {
-    $('#adminCredintial').hide();
-    $('#cashPage').show();
+    let username = $('#emailaddress1').val();
+    let password = $('#password1').val();
+    console.log(username);
+    console.log(password);
+
+    //create ajax request
+    $.ajax({
+        url: 'http://localhost:8080/api/v1/auth/signin',
+        method: 'POST',
+        contentType: 'application/json',
+
+        data: JSON.stringify({
+            email: username,
+            password: password
+        }),
+        success: function (data, textStatus, xhr) {
+            console.log(data);
+            console.log(data.userDTO.role)
+            console.log(xhr.status);
+            if (xhr.status === 200 && data.userDTO.role==="ADMIN") {
+                //set token in env.js
+                localStorage.setItem('token', data.token);
+
+                $('#adminCredintial').hide();
+                $('#cashPage').show();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
+            console.error(jqXHR);
+            console.log(textStatus)
+        }
+
+    });
+
 
 
 

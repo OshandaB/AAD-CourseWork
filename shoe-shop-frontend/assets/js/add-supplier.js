@@ -59,7 +59,9 @@ $('#saveSupplier').click(function () {
         url: 'http://localhost:8080/api/v1/suppliers/save',
         method: 'POST',
         contentType: 'application/json',
-
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         data: JSON.stringify({
             "id": id,
             "name": name,
@@ -77,7 +79,16 @@ $('#saveSupplier').click(function () {
         }),
         success: function (response) {
 
-            alert("Supplier Save successful!");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Supplier Added!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             getAllSuppliers();
             clearSupTextFiels();
             generateNextSupId();
@@ -85,10 +96,17 @@ $('#saveSupplier').click(function () {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message);
-            // $.each(jqXHR.responseJSON.data, function (index, customer) {
-            //     alert(`${customer.message}`)
-            // })
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Supplier Added Failed! Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             console.log(jqXHR);
             console.log(textStatus)
         }
@@ -142,7 +160,9 @@ $('#updateSupplier').click(function () {
         url: 'http://localhost:8080/api/v1/suppliers/update',
         method: 'PATCH',
         contentType: 'application/json',
-
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         data: JSON.stringify({
             "id": id,
             "name": name,
@@ -160,7 +180,16 @@ $('#updateSupplier').click(function () {
         }),
         success: function (response) {
 
-            alert("Supplier Update successful!");
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Supplier Updated!",
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             getAllSuppliers();
             clearSupTextFiels();
             generateNextSupId();
@@ -168,10 +197,17 @@ $('#updateSupplier').click(function () {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message);
-            // $.each(jqXHR.responseJSON.data, function (index, customer) {
-            //     alert(`${customer.message}`)
-            // })
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Supplier update Failed! Please check your input and try again.",
+                text: jqXHR.responseJSON.message,
+                background: '#202936',
+                showConfirmButton: true,
+                timer: 3000,
+                color:'white',
+
+            });
             console.log(jqXHR);
             console.log(textStatus)
         }
@@ -180,22 +216,54 @@ $('#updateSupplier').click(function () {
 
 $('#deleteSupplier').click(function () {
     let id = $('#supplierCode').val();
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/suppliers/delete/' + id,
-        method: 'DELETE',
-        contentType: 'application/json',
-        success: function (response) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        background: '#202936',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        color:'white',
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/suppliers/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer '+token
+                },
+                success: function (response) {
 
-            alert("Customer Delete successful!");
-            getAllSuppliers();
-            clearSupTextFiels();
-            generateNextSupId();
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message)
-            console.log(jqXHR);
-            console.log(textStatus)
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Supplier has been deleted.",
+                        background: '#202936',
+                        color:'white',
+                        icon: "success"
+                    });
+                    getAllSuppliers();
+                    clearSupTextFiels();
+                    generateNextSupId();
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: jqXHR.responseJSON.message,
+                        background: '#202936',
+                        color:'white',
+                        icon: "error"
+                    });
+                    console.log(jqXHR);
+                    console.log(textStatus)
+                }
+            });
+
+
         }
     });
 });
@@ -208,6 +276,9 @@ function getAllSuppliers() {
         url: 'http://localhost:8080/api/v1/suppliers/gelAllSuppliers',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
 
             $.each(response.data, function (index, supplier) {
@@ -247,7 +318,9 @@ function getAllSuppliers() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -298,6 +371,9 @@ function generateNextSupId() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/suppliers/genarateNextId',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log("generate" + response);
             let supId = response;
@@ -316,7 +392,10 @@ function generateNextSupId() {
 
             }
         },
-        error: function (error) {
+        error: function (jqXHR,error) {
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.log(error);
             $('#supplierCode').val("SUP-001");
         }
@@ -338,6 +417,9 @@ function searchSupplierByName() {
         url: 'http://localhost:8080/api/v1/suppliers/searchByName/'+name,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 $('#tblSupplier').append('<tr><td colspan="16"  style="text-align: left; font-size: 16px;">No results found.</td></tr>');

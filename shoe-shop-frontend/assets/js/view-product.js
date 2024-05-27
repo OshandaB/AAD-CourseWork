@@ -10,6 +10,9 @@ function getAllProducts() {
         url: 'http://localhost:8080/api/v1/inventory/gelAllProducts',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log(response.data);
             responsed = response;
@@ -84,7 +87,9 @@ function getAllProducts() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -120,6 +125,9 @@ function searchProductByCateName(category) {
         url: 'http://localhost:8080/api/v1/inventory/searchByCateFname/'+category,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 $('#productGrid').append('<div class="alert alert-info" role="alert">No result found</div>');
@@ -222,6 +230,9 @@ function searchProductByGender(gender) {
         url: 'http://localhost:8080/api/v1/inventory/searchByCateGenderName/'+gender,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log(response.data)
             if (response.data.length === 0) {
@@ -312,6 +323,9 @@ function searchProductByPrice(price) {
         url: 'http://localhost:8080/api/v1/inventory/searchByCatePrice/'+price,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log(response.data)
             if (response.data.length === 0) {
@@ -409,6 +423,9 @@ function searchSupplierByName() {
         url: 'http://localhost:8080/api/v1/inventory/searchByName/'+name,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 $('#productGrid').append('<div class="alert alert-info" role="alert">No result found</div>');

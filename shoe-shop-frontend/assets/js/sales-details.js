@@ -12,6 +12,9 @@ function getAllOrders() {
         url: 'http://localhost:8080/api/v1/salesDetails/gelAllOrders',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log(response.data);
 
@@ -41,7 +44,9 @@ function getAllOrders() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -60,52 +65,78 @@ $('#tblSalesDetails').on('click', '.delete-icon', function () {
 
     const orderDateTime = new Date(orderDate);
 
-    if (orderDateTime <= threeDaysAgo) {
+    if (orderDateTime >= threeDaysAgo) {
 
-        console.log("The order with ID:", orderId, "was placed three days or more earlier than today.");
+        console.log("The order with ID:", orderId, "was placed within the last three days (including today).");
         deleteOrder(orderId);
     } else {
-        console.log("The order with ID:", orderId, "was not placed three days earlier than today.");
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "The order with ID: " + orderId + " was placed more than three days ago.",
+            background: '#202936',
+            showConfirmButton: true,
+            timer: 3000,
+            color: 'white'
+        }).then((result) => {
+            if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                $('#exampleModal').modal('hide');
+            }
+        });
+        console.log("The order with ID:", orderId, "was placed more than three days ago.");
+
     }
 });
 
 
 function deleteOrder(orderId) {
-
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/salesDetails/delete/' + orderId,
-        method: 'DELETE',
-        contentType: 'application/json',
-        success: function (response) {
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/salesDetails/delete/' + orderId,
+                method: 'DELETE',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer '+token
+                },
+                success: function (response) {
                     Swal.fire({
                         title: "Deleted!",
-                        text: "Your file has been deleted.",
+                        text: "Refund Successfully!!",
+                        background: '#202936',
+                        color:'white',
                         icon: "success"
                     });
+
+                    getAllOrders();
+                    $("#exampleModal").modal("hide");
+                    // generateNextSupId();
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Refund Not Successfully!!",
+                        background: '#202936',
+                        color:'white',
+                        icon: "success"
+                    });
+
+                    console.log(jqXHR);
+                    console.log(textStatus)
                 }
             });
-            getAllOrders();
-            $("#exampleModal").modal("hide");
-            // generateNextSupId();
-
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message)
-            console.log(jqXHR);
-            console.log(textStatus)
         }
     });
+
 
 }
 
@@ -123,6 +154,9 @@ function getSalesItems(id) {
         url: 'http://localhost:8080/api/v1/salesDetails/gelAllSalesItems/' + id,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
              console.log(response.data)
             $("#exampleModal").modal("show");
@@ -178,6 +212,9 @@ function deleteOrderItem(orderId, itemCode, size) {
         url: 'http://localhost:8080/api/v1/salesDetails/delete/' + orderId +'/'+itemCode+'/'+size,
         method: 'DELETE',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
 
             Swal.fire({

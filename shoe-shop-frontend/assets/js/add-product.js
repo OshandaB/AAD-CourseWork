@@ -102,6 +102,9 @@ $('#saveInventory').click(function () {
             url: 'http://localhost:8080/api/v1/inventory/save',
             method: 'POST',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             data: JSON.stringify({
                 "itemCode": id,
                 "itemDesc": name,
@@ -117,13 +120,32 @@ $('#saveInventory').click(function () {
 
             }),
             success: function (response) {
-                alert("Item Save successful!");
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product Added!",
+                    background: '#202936',
+                    showConfirmButton: true,
+                    timer: 3000,
+                    color:'white',
+
+                });
                 getAllProducts();
                 clearInventoryTextFields();
                 // generateNextSupId();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseJSON.message);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Product Added Failed! Please check your input and try again.",
+                    text: jqXHR.responseJSON.message,
+                    background: '#202936',
+                    showConfirmButton: true,
+                    timer: 3000,
+                    color:'white',
+
+                });
                 console.log(jqXHR);
                 console.log(textStatus)
             }
@@ -229,6 +251,9 @@ $('#updateInventory').click(function () {
             url: 'http://localhost:8080/api/v1/inventory/update',
             method: 'PATCH',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer '+token
+            },
             data: JSON.stringify({
                 "itemCode": id,
                 "itemDesc": name,
@@ -244,14 +269,32 @@ $('#updateInventory').click(function () {
 
             }),
             success: function (response) {
-                alert("Item Update successful!");
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product Updated!",
+                    background: '#202936',
+                    showConfirmButton: true,
+                    timer: 3000,
+                    color:'white',
+
+                });
                 getAllProducts();
                 clearInventoryTextFields();
                 // generateNextSupId();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseJSON.message);
-                console.log(jqXHR);
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Product Update Failed! Please check your input and try again.",
+                    text: jqXHR.responseJSON.message,
+                    background: '#202936',
+                    showConfirmButton: true,
+                    timer: 3000,
+                    color:'white',
+
+                });                console.log(jqXHR);
                 console.log(textStatus)
             }
         });
@@ -267,6 +310,9 @@ function getAllProducts() {
         url: 'http://localhost:8080/api/v1/inventory/gelAllProducts',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
               console.log(response.data);
             responsed = response;
@@ -314,7 +360,9 @@ function getAllProducts() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -326,6 +374,9 @@ function loadAllSupIds() {
         url: 'http://localhost:8080/api/v1/suppliers/gelAllSuppliers',
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
 
             $.each(response.data, function (index, supplier) {
@@ -336,7 +387,9 @@ function loadAllSupIds() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.error(jqXHR);
             console.log(textStatus)
         }
@@ -356,6 +409,9 @@ function generateNextShoeCode(shoeCode) {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/inventory/genarateNextId/'+shoeCode,
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             console.log("generate" + response);
             let supId = response;
@@ -378,7 +434,10 @@ function generateNextShoeCode(shoeCode) {
 
             }
         },
-        error: function (error) {
+        error: function (jqXHR,error) {
+            if (jqXHR.status === 401) {
+                window.location.replace('authentication-login.html');
+            }
             console.log(error);
             if (shoeCode !== undefined){
                 $('#itemCode').val(shoeCode+"00001");
@@ -500,6 +559,9 @@ function loadSupplierName(supCode) {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8080/api/v1/suppliers/getOneSupplier/'+supCode,
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             $('#supplierName').val(response.data.name);
         },
@@ -515,24 +577,57 @@ function loadSupplierName(supCode) {
 
 $('#deleteInventory').click(function () {
     let id = $('#itemCode').val();
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/inventory/delete/' + id,
-        method: 'DELETE',
-        contentType: 'application/json',
-        success: function (response) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        background: '#202936',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        color:'white',
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/inventory/delete/' + id,
+                method: 'DELETE',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer '+token
+                },
+                success: function (response) {
 
-            alert("Product Delete successful!");
-          getAllProducts();
-            clearInventoryTextFields();
-            // generateNextSupId();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Product has been deleted.",
+                        background: '#202936',
+                        color:'white',
+                        icon: "success"
+                    });
+                    getAllProducts();
+                    clearInventoryTextFields();
+                    // generateNextSupId();
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseJSON.message)
-            console.log(jqXHR);
-            console.log(textStatus)
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: jqXHR.responseJSON.message,
+                        background: '#202936',
+                        color:'white',
+                        icon: "error"
+                    });
+                    console.log(jqXHR);
+                    console.log(textStatus)
+                }
+            });
+
         }
     });
+
+
+
 });
 
 function addSizeQtyFields() {
@@ -580,6 +675,9 @@ function searchSupplierByName() {
         url: 'http://localhost:8080/api/v1/inventory/searchByName/'+name,
         method: 'GET',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer '+token
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 $('#tblInventory').append('<tr><td colspan="16"  style="text-align: left; font-size: 16px;">No results found.</td></tr>');

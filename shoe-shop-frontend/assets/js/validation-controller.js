@@ -7,6 +7,9 @@ function validateAddress(address) {
     // Simple email validation regex
     return /^[a-zA-Z0-9\s.,-]*$/.test(address);
 }
+function validatePassword(password) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)
+}
 function validateId(id) {
     // Simple email validation regex
     return /^CUS-\d{3}$/.test(id);
