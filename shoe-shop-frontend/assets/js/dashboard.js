@@ -1,8 +1,9 @@
-$(window).ready(function () {
+$(document).ready(function () {
   setSalesOverview(5, 2024).then(r=> {  console.log(r);});
   mostSalesItemByMonth(5, 2024).then(r => {  console.log(r);});
   mostSalesFourItems().then(r => {  console.log(r);});
   totalCustomers().then(r => {  console.log(r);} );
+
   sendEmailForBithday();
 
 });
@@ -571,6 +572,7 @@ $(window).ready(function () {
       }
 
       async function mostSalesFourItems() {
+        
         await $.ajax({
           url: 'http://localhost:8080/api/v1/dashboard/mostSalesItemFour',
           method: 'GET',
@@ -600,6 +602,7 @@ $(window).ready(function () {
       }
 
       async function getItemDetails(salesItem) {
+
         await $.ajax({
           url: 'http://localhost:8080/api/v1/inventory/getOneProduct/' + salesItem,
           method: 'GET',
