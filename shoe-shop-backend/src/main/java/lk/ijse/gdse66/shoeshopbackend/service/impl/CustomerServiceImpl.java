@@ -115,6 +115,9 @@ public class CustomerServiceImpl implements CustomerService {
         int day = today.getDayOfMonth();
 //        List<Customer> birthdayCustomers = customerRepository.findByDob(date);
         List<Customer> birthdayCustomers = customerRepository.findByMonthAndDay(month, day);
+        if (birthdayCustomers.isEmpty()) {
+            throw new EntityNotFoundException("No customers found with birthday today.");
+        }
 
         System.out.println(birthdayCustomers);
         for (Customer customer : birthdayCustomers) {

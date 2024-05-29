@@ -14,6 +14,7 @@ import lk.ijse.gdse66.shoeshopbackend.service.AuthenticationService;
 import lk.ijse.gdse66.shoeshopbackend.service.JwtService;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.InvalidCredentialsException;
 import lk.ijse.gdse66.shoeshopbackend.service.exception.InvalidPasswordException;
+import lk.ijse.gdse66.shoeshopbackend.service.exception.NotFoundException;
 import lk.ijse.gdse66.shoeshopbackend.util.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +80,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthResponse signUp(SignUpRequest signUpRequest) {
         log.info("Creating New User {}", signUpRequest.getEmail());
+        //check the email exit emploee table
+        if (!employeeRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new NotFoundException("Employee not found");
+        }
+        Employee employee =  employeeRepository.findByEmail(signUpRequest.getEmail())
+                .orElseThrow(() -> new NotFoundException("Employee not found"));
+
+        employee.setAccessRole(Role.valueOf(signUpRequest.getRole()));
+        employeeRepository.save(employee);
         UserDTO userDTO = UserDTO.builder()
 
                 .email(signUpRequest.getEmail())
