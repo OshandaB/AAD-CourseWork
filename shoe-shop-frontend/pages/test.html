@@ -2,28 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../assets/css/notification.css" />
-
+    <title>Invoice</title>
+    <link rel="stylesheet" href="../assets/css/pdf.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-<div class="notifications">
-    <div class="toast hello">
-        <i class="${icon}"></i>
-        <div class="content">
-            <div class="title">hello</div>
-            <span>hello</span>
+
+<div class="invoice-wrapper" id="print-area">
+    <div class="invoice">
+        <div class="invoice-header">
+            <h1>Invoice</h1>
+            <p class="text-secondary">Date: 05/12/2020</p>
+            <p class="text-secondary">Invoice No: 16789</p>
         </div>
-        <i class="fa-solid fa-xmark"></i>
+        <div class="invoice-body">
+            <h1 class="text-primary">Hello Shoe Shop (PVT) LTD.</h1>
+            <table class="invoice-table">
+                <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Description</th>
+                    <th>Rate</th>
+                    <th>QTY</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Design</td>
+                    <td>Creating a website design</td>
+                    <td>$50.00</td>
+                    <td>10</td>
+                    <td class="text-primary">$500.00</td>
+                </tr>
+                <tr>
+                    <td>Development</td>
+                    <td>Website Development</td>
+                    <td>$50.00</td>
+                    <td>10</td>
+                    <td class="text-primary">$500.00</td>
+                </tr>
+                <tr>
+                    <td>SEO</td>
+                    <td>Optimize the site for search engines (SEO)</td>
+                    <td>$50.00</td>
+                    <td>10</td>
+                    <td class="text-primary">$500.00</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="invoice-total">
+                <p class="text-secondary"><span class="text-bold">Sub Total:</span> $1500.00</p>
+                <p class="text-secondary"><span class="text-bold">Tax:</span> $150.00</p>
+                <p class="text-primary"><span class="text-bold">Total:</span> $1650.00</p>
+            </div>
+        </div>
+        <div class="invoice-footer">
+            <p><span class="text-bold">NOTE:</span> This is a computer-generated receipt and does not require a physical signature.</p>
+        </div>
+        <div class="invoice-actions">
+            <button class="invoice-action-btn" onclick="printInvoice()">Print</button>
+            <button class="invoice-action-btn" onclick="downloadInvoice()">Download</button>
+        </div>
     </div>
 </div>
-<div class="buttons">
-    <button id="success">Success</button>
-    <button id="error">Error</button>
-    <button id="warning">Warning</button>
-    <button id="info">Info</button>
-</div>
+
 <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="../assets/js/util.js"></script>
+<script>
+    function printInvoice() {
+        window.print();
+    }
+
+    async function downloadInvoice() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const invoice = document.getElementById('print-area');
+        const canvas = await html2canvas(invoice, { backgroundColor: null });
+
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 295; // A4 height in mm
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+
+        doc.save('invoice.pdf');
+    }
+</script>
 </body>
 </html>

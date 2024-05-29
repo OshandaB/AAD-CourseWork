@@ -1,5 +1,12 @@
 
 $(function () {
+    $(document).ajaxError(function(event, jqXHR, settings, thrownError) {
+        console.log(event);
+        if (jqXHR.status === 401) {
+            window.location.replace('authentication-login.html');
+        }
+    });
+
     var jpegImageData = localStorage.getItem('picture')||localStorage.getItem('userPicture');
     setProfileImage(jpegImageData, 'jpeg');
     var pngImageData = localStorage.getItem('picture') || localStorage.getItem('userPicture');

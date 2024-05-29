@@ -47,7 +47,7 @@ $(document).ready(function () {
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
+  alert(jqXHR.responseJSON.message);
                 console.error(jqXHR);
                 console.log(textStatus)
             }

@@ -14,6 +14,8 @@ $(document).ready(function () {
 
 
     $('#orderDate').val(formattedDate);
+    $('#invoiceDate').text(formattedDate);
+
     $('#placeOrder').prop("disabled",true);
     $('#addToCart').prop("disabled",true);
     $("#addPoint").prop("disabled", true);
@@ -23,12 +25,33 @@ $(document).ready(function () {
 $('#addToCart').on('click', function () {
     $('#tblCart').empty();
 
-    $("#addPoint").prop("disabled", false);
+    // $("#addPoint").prop("disabled", false);
     addToCart();
+
 
 });
 
+$('#addPoint').on('keydown keyup', function () {
 
+    if (parseInt($('#addPoint').val())>parseInt($('#points').text())){
+        $('#addPoint').val("");
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "Please Check Points!",
+            background: '#202936',
+            showConfirmButton: true,
+            timer: 3000,
+            color:'white',
+
+        });
+    }else {
+
+        // alert("jdfh")
+        $('#addPoint').val($('#addPoint').val());
+    }
+
+});
 function clearPlaceOrderTextFields() {
     $('#cash').val("");
     $('.Total').text("");
@@ -42,7 +65,9 @@ function clearPlaceOrderTextFields() {
 $('#placeOrder').on('click', function () {
     if (parseFloat($('#cash').val()) >= parseFloat($('.Total').text())) {
         placeOrderB();
-
+        $('#invoiceReceipt').modal('show');
+        $('#invoiceCash').text('LKR '+$('#cash').val());
+        setInvoiceTableData();
         clearPlaceOrderTextFields();
         $('#tblCart').empty();
         cartDetails = [];
@@ -192,6 +217,11 @@ function deleteRow(button) {
     $('#customerCode').on('change', function () {
         let custId = $("#customerCode").val();
         setCustomerDetails(custId);
+        if (   ($('#customerCode').val() !==null) ){
+            $('#addPoint').prop("disabled",false);
+        }else {
+            $('#addPoint').prop("disabled",true);
+        }
 
     });
 
@@ -275,6 +305,7 @@ function deleteRow(button) {
                 console.log(response.data)
                 $('#customerName').val(response.data.name);
                 $('#level').text(response.data.level);
+                $('#points').text(response.data.totalPoints)
                 $('#email1').val(response.data.email);
                 $('#cono').val(response.data.contactNo);
             },
@@ -450,9 +481,11 @@ function generateNextOrderId() {
                 ++id;
                 let digit = id.toString().padStart(3, '0');
                 $('#orderId').val("ORD-" + digit);
+                $('#invoiceId').text("ORD-" + digit);
 
             } else {
                 $('#orderId').val("ORD-001");
+
 
             }
         },
@@ -485,11 +518,11 @@ $("#addPoint").keyup(function () {
         let discount = subTotal*parseFloat($('#discount').text())*0.01;
         $('#disPrice').text(discount)
 
-        $('.Total,.TotalC,#cardTotal').text((subTotal-discount).toFixed(2));
+        $('.Total,.TotalC,#cardTotal,#invoiceTotal').text((subTotal-discount).toFixed(2));
     }else {
         $('#discount').text("");
         $('#disPrice').text("");
-        $('.Total,.TotalC').text(parseFloat($('#subTotal').text()).toFixed(2));
+        $('.Total,.TotalC,#cardTotal,#invoiceTotal').text(parseFloat($('#subTotal').text()).toFixed(2));
 
     }
 
@@ -504,12 +537,12 @@ function calculateBalance() {
         let cash = parseFloat($('#cash').val());
 
         let balance = cash-subTotal;
-        $('#balance').text(balance.toFixed(2));
+        $('#balance,#invoiceBalance').text(balance.toFixed(2));
 
 
     }else {
 
-        $('#balance').val(0.00);
+        $('#balance,#invoiceBalance').val(0.00);
     }
 }
 
@@ -610,4 +643,17 @@ $('#cardNext').on('click', function () {
 
 
 });
+
+function setInvoiceTableData() {
+    for (let i = 0; i < cartDetails.length; i++) {
+        let row = `<tr>
+                     <td>${cartDetails[i].itemCode}</td>
+                     <td>${cartDetails[i].itemName}</td>
+                      <td>${cartDetails[i].size}</td>
+                       <td>${cartDetails[i].qty}</td>
+                     <td>${cartDetails[i].unitPrice}</td>
+                    </tr>`;
+        $('#tblInvoice').append(row);
+    }
+}
 

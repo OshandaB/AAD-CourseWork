@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="../assets/css/customer.css" />
     <link rel="stylesheet" href="../assets/css/paymentPage.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/pdf.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css" rel="stylesheet">
 </head>
 
 <body >
@@ -263,7 +268,11 @@
                                                 <label disabled id="level" class="ms-3 badge bg-success"></label>
 <!--                                                <input type="text" class="form-control" id="level" name="level">-->
                                             </div>
-
+                                            <div class="form-group mt-3">
+                                                <label for="points" class="form-label mt-2">Loyalty Points</label>
+                                                <label disabled id="points" class="ms-3 badge bg-danger"></label>
+                                                <!--                                                <input type="text" class="form-control" id="level" name="level">-->
+                                            </div>
                                             <div class="mb-3 mt-3">
                                                 <label for="email1" class="form-label">Email *</label>
                                                 <input disabled type="email" class="form-control" id="email1" placeholder="Email Here" required>
@@ -372,7 +381,7 @@
 
                         <div class="form-group mt-3">
                             <label for="addPoint" class="form-label">Added Points</label>
-                            <input min="0" oninput="validity.valid||(value='');" value="0" type="number" class="form-control" id="addPoint" name="addPoint">
+                            <input min="0"  oninput="validity.valid||(value='');" value="0" type="number" class="form-control" id="addPoint" name="addPoint">
                         </div>
 <!--                        <div class="form-group mt-3">-->
 <!--                            <label for="payMethod" class="form-label">Payment Method</label>-->
@@ -523,7 +532,57 @@
     <!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" id="invoiceReceipt" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5">Invoice Receipt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="invoice-wrapper" id="print-area">
+                    <div class="invoice">
+                        <div class="invoice-header">
+                            <h1>Invoice</h1>
+                            <p class="text-secondary">Date: <span id="invoiceDate"></span></p>
+                            <p class="text-secondary">Invoice No: <span id="invoiceId"></span></p>
+                        </div>
+                        <div class="invoice-body">
 
+                          <h1 class="text-primary">Hello Shoe Shop (PVT) LTD.</h1>
+                            <table class="invoice-table">
+                                <thead>
+                                <tr>
+                                    <th>ItemCode</th>
+                                    <th>Description</th>
+                                    <th>Size</th>
+                                    <th>QTY</th>
+                                    <th>Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tblInvoice">
+                                </tbody>
+                            </table>
+                            <div class="invoice-total">
+                                <p class="text-secondary"><span class="text-bold">Total:</span> <span id="invoiceTotal"></span></p>
+                                <p class="text-secondary"><span class="text-bold">Cash:</span> <span id="invoiceCash"></span></p>
+
+                                <p class="text-primary"><span class="text-bold">Balance:</span><span id="invoiceBalance"></span></p>
+                            </div>
+                        </div>
+                        <div class="invoice-footer">
+                            <p><span class="text-bold">NOTE:</span> This is a computer-generated receipt and does not require a physical signature.</p>
+                        </div>
+                        <div class="invoice-actions">
+                            <button class="invoice-action-btn" onclick="printInvoice()">Print</button>
+                            <button class="invoice-action-btn" onclick="downloadInvoice()">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -537,6 +596,15 @@
 <script src="../assets/js/util.js"></script>
 <script src="../assets/js/env/env.js"></script>
 <script src="../assets/js/place-order.js"></script>
+<script>
+    function printInvoice() {
+        var printContents = document.getElementById("print-area").innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
 </body>
 
 </html>

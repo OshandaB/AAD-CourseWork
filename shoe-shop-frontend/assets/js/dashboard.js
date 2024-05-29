@@ -1,8 +1,8 @@
-$(document).ready(function () {
-  setSalesOverview(5,2024);
-  mostSalesItemByMonth(5,2024);
-  mostSalesFourItems();
-  totalCustomers();
+$(window).ready(function () {
+  setSalesOverview(5, 2024).then(r=> {  console.log(r);});
+  mostSalesItemByMonth(5, 2024).then(r => {  console.log(r);});
+  mostSalesFourItems().then(r => {  console.log(r);});
+  totalCustomers().then(r => {  console.log(r);} );
   sendEmailForBithday();
 
 });
@@ -471,13 +471,13 @@ $(document).ready(function () {
   });
 
 
-      function setSalesOverview(month,year) {
-        $.ajax({
-          url: 'http://localhost:8080/api/v1/dashboard/filterByMonth/'+month+'/'+year,
+      async function setSalesOverview(month, year) {
+        await $.ajax({
+          url: 'http://localhost:8080/api/v1/dashboard/filterByMonth/' + month + '/' + year,
           method: 'GET',
           contentType: 'application/json',
           headers: {
-            'Authorization': 'Bearer '+token
+            'Authorization': 'Bearer ' + token
           },
           success: function (response) {
             console.log(response.data);
@@ -497,7 +497,7 @@ $(document).ready(function () {
             updateChart(salesMap);
 
           },
-          error: function (jqXHR,error) {
+          error: function (jqXHR, error) {
             if (jqXHR.status === 401) {
               window.location.replace('authentication-login.html');
             }
@@ -506,12 +506,11 @@ $(document).ready(function () {
           }
 
 
-
         });
       }
 
-      function mostSalesItemByMonth(month,year) {
-        $.ajax({
+      async function mostSalesItemByMonth(month, year) {
+        await $.ajax({
           url: 'http://localhost:8080/api/v1/dashboard/mostSalesItemByDate/' + month + '/' + year,
           method: 'GET',
           contentType: 'application/json',
@@ -560,7 +559,7 @@ $(document).ready(function () {
             });
 
             // Render the chart with the processed data
-            setMostSalesItem(highestDailySales, categories,itemDetailsMap);
+            setMostSalesItem(highestDailySales, categories, itemDetailsMap);
           },
           error: function (jqXHR, error) {
             if (jqXHR.status === 401) {
@@ -571,23 +570,24 @@ $(document).ready(function () {
         });
       }
 
-      function mostSalesFourItems() {
-        $.ajax({
+      async function mostSalesFourItems() {
+        await $.ajax({
           url: 'http://localhost:8080/api/v1/dashboard/mostSalesItemFour',
           method: 'GET',
           contentType: 'application/json',
           headers: {
-            'Authorization': 'Bearer '+token
+            'Authorization': 'Bearer ' + token
           },
           success: function (response) {
             console.log(response.data);
             $.each(response.data, function (index, salesItem) {
               console.log(salesItem)
+
               getItemDetails(salesItem)
             });
 
           },
-          error: function (jqXHR,error) {
+          error: function (jqXHR, error) {
             if (jqXHR.status === 401) {
               window.location.replace('authentication-login.html');
             }
@@ -596,21 +596,20 @@ $(document).ready(function () {
           }
 
 
-
         });
       }
 
-      function getItemDetails(salesItem) {
-        $.ajax({
+      async function getItemDetails(salesItem) {
+        await $.ajax({
           url: 'http://localhost:8080/api/v1/inventory/getOneProduct/' + salesItem,
           method: 'GET',
           contentType: 'application/json',
           headers: {
-            'Authorization': 'Bearer '+token
+            'Authorization': 'Bearer ' + token
           },
           success: function (response) {
             console.log(response.data);
-            let card =`<div class="col-sm-6 col-xl-3">
+            let card = `<div class="col-sm-6 col-xl-3">
           <div class="card overflow-hidden rounded-2">
             <div class="position-relative">
               <a href="javascript:void(0)"><img src="${response.data.itemPicture}" class="card-img-top rounded-0" alt="..."></a>
@@ -630,33 +629,32 @@ $(document).ready(function () {
         </div>`
             $('#dashPicture').append(card);
           },
-          error: function (jqXHR,error) {
+          error: function (jqXHR, error) {
             console.log(error);
 
           }
 
 
-
         });
       }
-      function totalCustomers() {
+      async function totalCustomers() {
         //create ajax request
-        $.ajax({
+        await $.ajax({
           url: 'http://localhost:8080/api/v1/dashboard/countCustomers',
           method: 'GET',
           contentType: 'application/json',
           headers: {
-            'Authorization': 'Bearer '+token
+            'Authorization': 'Bearer ' + token
           },
-            success: function (response) {
-                console.log(response.data);
-                $('#totalCustomers').text(response.data);
-                getCustomerLevel();
-            },
-            error: function (jqXHR,error) {
-                console.log(error);
+          success: function (response) {
+            console.log(response.data);
+            $('#totalCustomers').text(response.data);
+            getCustomerLevel();
+          },
+          error: function (jqXHR, error) {
+            console.log(error);
 
-            }
+          }
         });
       }
       function getCustomerLevel() {
