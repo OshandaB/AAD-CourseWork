@@ -47,15 +47,7 @@ Hello Shoes Pvt. Ltd. is a shoe retail company with ten branches island-wide. Th
 
 ## Contributing
 
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-Please adhere to this project's `code of conduct`.
-
-
-
+Contributions are welcome! Please follow our contribution guidelines to get started.
 
 ## License
-
-
+This project is licensed under MIT License. See the [LICENSE.md] (https://github.com/OshandaB/AAD-Assignment-JavaEE/blob/master/LICENSE) file for details.
