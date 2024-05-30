@@ -58,5 +58,4 @@ Please adhere to this project's `code of conduct`.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
 
